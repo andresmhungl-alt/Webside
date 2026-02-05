@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -49,7 +51,6 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen grid lg:grid-cols-2 bg-white">
-            {/* Left Side - Image/Pattern */}
             {/* Left Side - Image/Pattern */}
             <div className="hidden lg:flex relative bg-purple-900 overflow-hidden items-center justify-center p-12">
                 <img
