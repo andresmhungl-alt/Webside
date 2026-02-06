@@ -71,6 +71,8 @@ export default async function MarketplacePage({
                                     href={`/shop/${store.slug}`}
                                     className="bg-white rounded-[2rem] border border-purple-100 shadow-sm hover:shadow-2xl transition-all transform hover:-translate-y-2 group relative overflow-hidden flex flex-col h-[450px]"
                                 >
+                                    {/* Store Cover Image */}
+                                    <div className="h-48 w-full relative overflow-hidden bg-purple-50">
                                         {store.image_url ? (
                                             <Image
                                                 src={store.image_url}
@@ -124,31 +126,31 @@ export default async function MarketplacePage({
                                         </div>
                                     </div>
                                 </Link>
-                )
+                            )
                         })}
-        </div>
-    ) : (
-        <div className="text-center py-32 bg-white rounded-[3rem] border border-purple-50 shadow-sm">
-            <div className="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Search className="w-10 h-10 text-purple-300" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">No encontramos tiendas</h3>
-            <p className="text-gray-500">
-                Prueba con otro nombre o vuelve a intentar más tarde.
-            </p>
-            {searchTerm && (
-                <Link href="/marketplace" className="mt-6 inline-block text-purple-600 font-semibold hover:underline">
-                    Limpiar búsqueda
-                </Link>
-            )}
-        </div>
-    )
-}
+                    </div>
+                ) : (
+                    <div className="text-center py-32 bg-white rounded-[3rem] border border-purple-50 shadow-sm">
+                        <div className="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Search className="w-10 h-10 text-purple-300" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">No encontramos tiendas</h3>
+                        <p className="text-gray-500">
+                            Prueba con otro nombre o vuelve a intentar más tarde.
+                        </p>
+                        {searchTerm && (
+                            <Link href="/marketplace" className="mt-6 inline-block text-purple-600 font-semibold hover:underline">
+                                Limpiar búsqueda
+                            </Link>
+                        )}
+                    </div>
+                )
+                }
             </main >
 
-    <footer className="footer-bg-white border-t border-purple-50 py-12 text-center text-gray-400 text-sm">
-        <p>© {new Date().getFullYear()} Aranya Inc. Hecho con ❤️ para artesanos.</p>
-    </footer>
+            <footer className="footer-bg-white border-t border-purple-50 py-12 text-center text-gray-400 text-sm">
+                <p>© {new Date().getFullYear()} Aranya Inc. Hecho con ❤️ para artesanos.</p>
+            </footer>
         </div >
     )
 }

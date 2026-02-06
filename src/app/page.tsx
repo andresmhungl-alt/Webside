@@ -125,7 +125,7 @@ export default async function Home() {
                   >
                     <div className="h-40 w-full relative overflow-hidden">
                       {store.image_url ? (
-                        <img src={store.image_url} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer" />
+                        <Image src={store.image_url} alt="" fill className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" unoptimized />
                       ) : (
                         <div className="w-full h-full bg-purple-50 flex items-center justify-center">
                           <Store className="w-10 h-10 text-purple-200" />
