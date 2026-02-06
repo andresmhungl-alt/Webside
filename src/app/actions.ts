@@ -91,3 +91,25 @@ export async function addProduct(storeId: string, formData: FormData) {
     revalidatePath('/dashboard')
     return { success: true }
 }
+
+export async function getPublicStores(searchTerm?: string) {
+    const supabase = await createClient()
+
+    let query = supabase
+        .from('stores')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+    if (searchTerm) {
+        query = query.ilike('name', `%${searchTerm}%`)
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+        console.error('Error fetching public stores:', error)
+        return []
+    }
+
+    return data || []
+}

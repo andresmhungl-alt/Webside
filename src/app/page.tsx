@@ -18,6 +18,9 @@ export default function Home() {
             <span className="font-outfit">Aranya</span>
           </div>
           <div className="flex gap-4 items-center">
+            <Link href="/marketplace" className="hidden md:block px-5 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 transition-colors">
+              Explorar Tiendas
+            </Link>
             <Link href="/login" className="hidden md:block px-5 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 transition-colors">
               Log In
             </Link>
