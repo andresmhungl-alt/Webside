@@ -41,19 +41,17 @@ function CreateStoreForm() {
 
                 <div>
                     <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide text-xs">Store Cover Image</label>
-                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-purple-400 transition-colors bg-gray-50/50">
-                        <div className="space-y-1 text-center">
-                            <Plus className="mx-auto h-12 w-12 text-gray-400" />
+                    <label className="mt-1 flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-purple-400 hover:bg-purple-50/30 transition-all cursor-pointer bg-gray-50/50 group">
+                        <input name="image" type="file" accept="image/*" className="sr-only" />
+                        <div className="space-y-2 text-center">
+                            <Plus className="mx-auto h-12 w-12 text-gray-400 group-hover:text-purple-500 transition-colors" />
                             <div className="flex text-sm text-gray-600">
-                                <label className="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-purple-500">
-                                    <span>Upload a file</span>
-                                    <input name="image" type="file" accept="image/*" className="sr-only" />
-                                </label>
-                                <p className="pl-1">or drag and drop</p>
+                                <span className="font-medium text-purple-600 hover:text-purple-500">Haz clic para subir una imagen</span>
+                                <p className="pl-1 text-gray-500">o arrastra y suelta</p>
                             </div>
-                            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                            <p className="text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
                         </div>
-                    </div>
+                    </label>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
