@@ -54,17 +54,15 @@ export default async function ShopPage({ params }: { params: { slug: string } })
     return (
         <div className="min-h-screen bg-white">
             {/* Sticky Navigation */}
-            <nav className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 transition-all duration-300">
+            <nav className="bg-white/90 backdrop-blur-md border-b border-purple-100 sticky top-0 z-50 transition-all duration-300 shadow-sm">
                 <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <Link href="/marketplace" className="flex items-center gap-2 text-purple-600 font-bold hover:text-purple-800 transition-all group">
-                        <div className="w-8 h-8 bg-purple-50 rounded-full flex items-center justify-center group-hover:bg-purple-100 transition-colors">
-                            <ArrowLeft className="w-4 h-4" />
-                        </div>
-                        <span className="text-sm uppercase tracking-widest">Explora mercado</span>
+                    <Link href="/marketplace" className="flex items-center gap-3 bg-purple-600 text-white px-5 py-2.5 rounded-full font-bold hover:bg-purple-700 transition-all shadow-lg hover:shadow-purple-200 hover:-translate-x-1 group">
+                        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                        <span className="text-sm">Explora mercado</span>
                     </Link>
-                    <div className="flex items-center gap-3">
+                    <div className="hidden md:flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-full border border-gray-100">
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tienda Activa</span>
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tienda Verificada</span>
                     </div>
                 </div>
             </nav>
