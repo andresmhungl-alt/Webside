@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ShoppingBag, Star, TrendingUp, Clock } from 'lucide-react'
+import { ArrowRight, ShoppingBag, Star, TrendingUp, Clock, Store } from 'lucide-react'
+import { getPublicStores } from '@/app/actions'
 
-// Placeholder for the generated image - assuming it will be saved as 'lavender_wool_hero.png' in public folder
-// If not automatically there, we'll need to move it. For now, referencing it.
+export const dynamic = 'force-dynamic'
 
-export default function Home() {
+export default async function Home() {
+  const featuredStores = await getPublicStores()
+  const displayStores = featuredStores.slice(0, 3)
+
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-purple-200">
       {/* Navbar */}
@@ -18,7 +21,7 @@ export default function Home() {
             <span className="font-outfit">Aranya</span>
           </div>
           <div className="flex gap-4 items-center">
-            <Link href="/marketplace" className="hidden md:block px-5 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 transition-colors">
+            <Link href="/marketplace" className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 transition-colors">
               Explorar Tiendas
             </Link>
             <Link href="/login" className="hidden md:block px-5 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 transition-colors">
@@ -53,8 +56,8 @@ export default function Home() {
               <Link href="/login" className="px-8 py-4 text-lg font-semibold bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl flex items-center justify-center gap-2 group">
                 Create Store <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="#features" className="px-8 py-4 text-lg font-semibold bg-white text-gray-900 border border-gray-200 rounded-full hover:bg-gray-50 transition-all shadow-sm">
-                Explore
+              <Link href="/marketplace" className="px-8 py-4 text-lg font-semibold bg-white text-gray-900 border border-gray-200 rounded-full hover:bg-gray-50 transition-all shadow-sm">
+                Explorar Tiendas
               </Link>
             </div>
 
@@ -98,6 +101,43 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Tiendas Destacadas Section */}
+        {displayStores.length > 0 && (
+          <section className="py-24 bg-white overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+                <div>
+                  <h2 className="text-4xl font-bold text-gray-900 mb-4 font-outfit">Explora el Mercado</h2>
+                  <p className="text-gray-600 text-lg max-w-2xl">Descubre las últimas tiendas pop-up abiertas por nuestros artesanos.</p>
+                </div>
+                <Link href="/marketplace" className="text-purple-600 font-bold flex items-center gap-2 hover:translate-x-1 transition-transform group">
+                  Ver todas las tiendas <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-8">
+                {displayStores.map((store) => (
+                  <Link
+                    key={store.id}
+                    href={`/shop/${store.slug}`}
+                    className="bg-purple-50/50 rounded-[2rem] p-8 border border-purple-100 hover:bg-white hover:shadow-xl hover:border-purple-200 transition-all group"
+                  >
+                    <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-purple-600 mb-6 shadow-sm group-hover:bg-purple-600 group-hover:text-white transition-all">
+                      <Store className="w-7 h-7" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3 text-gray-900 group-hover:text-purple-700 transition-colors">{store.name}</h3>
+                    <p className="text-gray-600 leading-relaxed line-clamp-2 mb-6">{store.description}</p>
+                    <div className="flex items-center gap-2 text-purple-600 font-semibold text-sm">
+                      <Clock className="w-4 h-4" />
+                      <span>Ver Productos</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Features Section */}
         <section id="features" className="py-24 bg-gray-50">
