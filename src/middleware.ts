@@ -1,8 +1,8 @@
 import { type NextRequest } from 'next/server'
-import { updateSession } from '@/utils/supabase/proxy'
+import { updateSession } from '@/utils/supabase/middleware'
 
-export async function proxy(request: NextRequest) {
-    console.log(`[Proxy] Requesting: ${request.nextUrl.pathname}`)
+export async function middleware(request: NextRequest) {
+    console.log(`[Middleware] Requesting: ${request.nextUrl.pathname}`)
     return await updateSession(request)
 }
 
