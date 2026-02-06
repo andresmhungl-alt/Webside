@@ -1,7 +1,8 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
-import { Clock } from 'lucide-react'
+import { Clock, ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 // Force dynamic behavior because we rely on dates/time
 export const dynamic = 'force-dynamic'
@@ -29,6 +30,9 @@ export default async function ShopPage({ params }: { params: { slug: string } })
     if (isExpired || isNotStarted) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-purple-50 text-center text-gray-800">
+                <Link href="/marketplace" className="absolute top-8 left-8 flex items-center gap-2 text-purple-600 font-bold hover:text-purple-800 transition-colors bg-white px-4 py-2 rounded-full shadow-sm">
+                    <ArrowLeft className="w-5 h-5" /> Explora mercado
+                </Link>
                 <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-6">
                     <Clock className="w-10 h-10 text-gray-500" />
                 </div>
@@ -49,6 +53,22 @@ export default async function ShopPage({ params }: { params: { slug: string } })
 
     return (
         <div className="min-h-screen bg-white">
+            {/* Sticky Navigation */}
+            <nav className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 transition-all duration-300">
+                <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                    <Link href="/marketplace" className="flex items-center gap-2 text-purple-600 font-bold hover:text-purple-800 transition-all group">
+                        <div className="w-8 h-8 bg-purple-50 rounded-full flex items-center justify-center group-hover:bg-purple-100 transition-colors">
+                            <ArrowLeft className="w-4 h-4" />
+                        </div>
+                        <span className="text-sm uppercase tracking-widest">Explora mercado</span>
+                    </Link>
+                    <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tienda Activa</span>
+                    </div>
+                </div>
+            </nav>
+
             {/* Store Header */}
             <header className="bg-purple-900 text-white py-24 px-6 text-center relative overflow-hidden min-h-[400px] flex items-center justify-center">
                 {store.image_url && (
@@ -65,9 +85,9 @@ export default async function ShopPage({ params }: { params: { slug: string } })
                 <div className="relative z-10 max-w-4xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 text-sm font-semibold mb-8 animate-fade-in">
                         <Clock className="w-4 h-4 text-purple-300" />
-                        <span>Open until {endDate.toLocaleDateString()}</span>
+                        <span>Abierto hasta {endDate.toLocaleDateString()}</span>
                     </div>
-                    <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tighter drop-shadow-2xl font-outfit">
+                    <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tighter drop-shadow-2xl font-outfit uppercase">
                         {store.name}
                     </h1>
                     <p className="text-xl md:text-3xl text-purple-100 max-w-3xl mx-auto leading-relaxed font-light italic">
