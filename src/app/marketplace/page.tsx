@@ -1,6 +1,7 @@
 import { getPublicStores } from '@/app/actions'
 import Link from 'next/link'
 import { ShoppingBag, Search, Store, ArrowRight, Clock } from 'lucide-react'
+import Image from 'next/image'
 
 export const dynamic = 'force-dynamic'
 
@@ -70,10 +71,14 @@ export default async function MarketplacePage({
                                     href={`/shop/${store.slug}`}
                                     className="bg-white rounded-[2rem] border border-purple-100 shadow-sm hover:shadow-2xl transition-all transform hover:-translate-y-2 group relative overflow-hidden flex flex-col h-[450px]"
                                 >
-                                    {/* Store Cover Image */}
-                                    <div className="h-48 w-full relative overflow-hidden bg-purple-50">
                                         {store.image_url ? (
-                                            <img src={store.image_url} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                            <Image
+                                                src={store.image_url}
+                                                alt=""
+                                                fill
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                                                unoptimized
+                                            />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center">
                                                 <ShoppingBag className="w-12 h-12 text-purple-200" />
@@ -87,10 +92,15 @@ export default async function MarketplacePage({
                                     </div>
 
                                     <div className="p-8 flex flex-col flex-1 relative bg-white">
-                                        {/* Floating Avatar/Icon */}
                                         <div className="absolute -top-10 left-8 w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-purple-700 shadow-xl border-4 border-white overflow-hidden z-20">
                                             {store.image_url ? (
-                                                <img src={store.image_url} alt="" className="w-full h-full object-cover" />
+                                                <Image
+                                                    src={store.image_url}
+                                                    alt=""
+                                                    fill
+                                                    className="w-full h-full object-cover"
+                                                    unoptimized
+                                                />
                                             ) : (
                                                 <Store className="w-8 h-8" />
                                             )}
@@ -114,30 +124,31 @@ export default async function MarketplacePage({
                                         </div>
                                     </div>
                                 </Link>
-                            )
+                )
                         })}
-                    </div>
-                ) : (
-                    <div className="text-center py-32 bg-white rounded-[3rem] border border-purple-50 shadow-sm">
-                        <div className="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Search className="w-10 h-10 text-purple-300" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">No encontramos tiendas</h3>
-                        <p className="text-gray-500">
-                            Prueba con otro nombre o vuelve a intentar más tarde.
-                        </p>
-                        {searchTerm && (
-                            <Link href="/marketplace" className="mt-6 inline-block text-purple-600 font-semibold hover:underline">
-                                Limpiar búsqueda
-                            </Link>
-                        )}
-                    </div>
-                )}
-            </main>
-
-            <footer className="footer-bg-white border-t border-purple-50 py-12 text-center text-gray-400 text-sm">
-                <p>© {new Date().getFullYear()} Aranya Inc. Hecho con ❤️ para artesanos.</p>
-            </footer>
         </div>
+    ) : (
+        <div className="text-center py-32 bg-white rounded-[3rem] border border-purple-50 shadow-sm">
+            <div className="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Search className="w-10 h-10 text-purple-300" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">No encontramos tiendas</h3>
+            <p className="text-gray-500">
+                Prueba con otro nombre o vuelve a intentar más tarde.
+            </p>
+            {searchTerm && (
+                <Link href="/marketplace" className="mt-6 inline-block text-purple-600 font-semibold hover:underline">
+                    Limpiar búsqueda
+                </Link>
+            )}
+        </div>
+    )
+}
+            </main >
+
+    <footer className="footer-bg-white border-t border-purple-50 py-12 text-center text-gray-400 text-sm">
+        <p>© {new Date().getFullYear()} Aranya Inc. Hecho con ❤️ para artesanos.</p>
+    </footer>
+        </div >
     )
 }

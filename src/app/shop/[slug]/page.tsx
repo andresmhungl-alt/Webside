@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
 import { Clock } from 'lucide-react'
+import Image from 'next/image'
 
 // Force dynamic behavior because we rely on dates/time
 export const dynamic = 'force-dynamic'
@@ -51,10 +52,12 @@ export default async function ShopPage({ params }: { params: { slug: string } })
             {/* Store Header */}
             <header className="bg-purple-900 text-white py-24 px-6 text-center relative overflow-hidden min-h-[400px] flex items-center justify-center">
                 {store.image_url && (
-                    <img
+                    <Image
                         src={store.image_url}
                         alt=""
-                        className="absolute inset-0 w-full h-full object-cover opacity-30 scale-105 blur-sm"
+                        fill
+                        className="absolute inset-0 w-full h-full object-cover opacity-40 scale-105 blur-sm"
+                        unoptimized
                     />
                 )}
                 <div className="bg-gradient-to-b from-purple-950/80 via-purple-900/70 to-purple-950/80 absolute inset-0"></div>
@@ -80,12 +83,12 @@ export default async function ShopPage({ params }: { params: { slug: string } })
                         <div key={product.id} className="group">
                             <div className="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden mb-4 relative shadow-sm group-hover:shadow-xl transition-all">
                                 {product.image_url ? (
-                                    <img
+                                    <Image
                                         src={product.image_url}
                                         alt={product.name}
+                                        fill
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                        referrerPolicy="no-referrer"
-                                        loading="lazy"
+                                        unoptimized
                                     />
                                 ) : (
                                     <div className="flex items-center justify-center h-full text-gray-300 bg-gray-50">No Image</div>

@@ -92,8 +92,8 @@ export default async function Home() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" />
-                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" />
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" referrerPolicy="no-referrer" />
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" referrerPolicy="no-referrer" />
                   </div>
                   <span className="text-white text-xs font-medium">+120 others viewing</span>
                 </div>
@@ -123,9 +123,9 @@ export default async function Home() {
                     href={`/shop/${store.slug}`}
                     className="bg-white rounded-[2.5rem] border border-purple-100 shadow-sm hover:shadow-2xl transition-all transform hover:-translate-y-2 group overflow-hidden flex flex-col h-[400px]"
                   >
-                    <div className="h-40 w-full relative">
+                    <div className="h-40 w-full relative overflow-hidden">
                       {store.image_url ? (
-                        <img src={store.image_url} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                        <img src={store.image_url} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" referrerPolicy="no-referrer" />
                       ) : (
                         <div className="w-full h-full bg-purple-50 flex items-center justify-center">
                           <Store className="w-10 h-10 text-purple-200" />
@@ -189,6 +189,6 @@ export default async function Home() {
           <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Aranya Inc. All rights reserved.</p>
         </div>
       </footer>
-    </div>
+    </div >
   )
 }
