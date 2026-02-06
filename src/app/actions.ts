@@ -23,9 +23,28 @@ export async function createStore(formData: FormData) {
     const slug = formData.get('slug') as string
     const startDate = formData.get('start_date') as string
     const endDate = formData.get('end_date') as string
+    const imageFile = formData.get('image') as File
 
     if (!name || !slug || !startDate || !endDate) {
         throw new Error('Missing required fields')
+    }
+
+    let imageUrl = null
+
+    if (imageFile && imageFile.size > 0) {
+        const filename = `${user.id}/${Date.now()}-${imageFile.name}`
+        const { error: uploadError } = await supabase.storage
+            .from('stores')
+            .upload(filename, imageFile)
+
+        if (uploadError) {
+            console.error('Store image upload error:', uploadError)
+        } else {
+            const { data: { publicUrl } } = supabase.storage
+                .from('stores')
+                .getPublicUrl(filename)
+            imageUrl = publicUrl
+        }
     }
 
     const { error } = await supabase.from('stores').insert({
@@ -33,6 +52,7 @@ export async function createStore(formData: FormData) {
         name,
         slug,
         description,
+        image_url: imageUrl,
         start_date: startDate,
         end_date: endDate,
     })

@@ -39,6 +39,23 @@ function CreateStoreForm() {
                     <textarea name="description" rows={3} className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all outline-none" placeholder="Tell the story of your wool..." />
                 </div>
 
+                <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide text-xs">Store Cover Image</label>
+                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-purple-400 transition-colors bg-gray-50/50">
+                        <div className="space-y-1 text-center">
+                            <Plus className="mx-auto h-12 w-12 text-gray-400" />
+                            <div className="flex text-sm text-gray-600">
+                                <label className="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-purple-500">
+                                    <span>Upload a file</span>
+                                    <input name="image" type="file" accept="image/*" className="sr-only" />
+                                </label>
+                                <p className="pl-1">or drag and drop</p>
+                            </div>
+                            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
                         <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide text-xs flex items-center gap-2"><Clock className="w-4 h-4 text-purple-500" /> Opens On</label>
