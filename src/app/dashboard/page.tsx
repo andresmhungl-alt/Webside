@@ -4,6 +4,7 @@ import { createStore, addProduct, signOut } from '@/app/actions'
 import { Calendar, Plus, Package, Store as StoreIcon, Clock, LogOut } from 'lucide-react'
 
 import { CreateStoreForm } from './CreateStoreForm'
+import { AddProductForm } from './AddProductForm'
 
 interface Product {
     id: string
@@ -51,29 +52,7 @@ function ProductList({ storeId, products }: { storeId: string, products: Product
 
                 {/* Add Product Card */}
                 {products.length < 5 && (
-                    <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center p-6 hover:border-purple-400 hover:shadow-lg transition-all group relative overflow-hidden">
-                        <form action={async (formData) => {
-                            'use server'
-                            await addProduct(storeId, formData)
-                        }} className="w-full space-y-4 relative z-10">
-                            <div className="text-center mb-2">
-                                <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform text-purple-600">
-                                    <Plus className="w-6 h-6" />
-                                </div>
-                                <h3 className="font-bold text-gray-900">Add New Product</h3>
-                            </div>
-
-                            <div className="space-y-3">
-                                <input name="name" placeholder="Product Name" required className="w-full text-sm px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none" />
-                                <div className="flex gap-3">
-                                    <input name="price" type="number" step="0.01" placeholder="Price" required className="w-full text-sm px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none" />
-                                    <input name="image" type="file" accept="image/*" className="w-full text-sm px-2 py-2.5 text-gray-500" />
-                                </div>
-                                <textarea name="description" rows={2} placeholder="Product Description" className="w-full text-sm px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none resize-none"></textarea>
-                                <button type="submit" className="w-full py-2.5 bg-gray-900 text-white rounded-lg text-sm font-semibold hover:bg-black transition-all shadow-md">Add to Store</button>
-                            </div>
-                        </form>
-                    </div>
+                    <AddProductForm storeId={storeId} />
                 )}
             </div>
         </div>
