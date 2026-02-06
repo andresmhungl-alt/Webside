@@ -49,16 +49,26 @@ export default async function ShopPage({ params }: { params: { slug: string } })
     return (
         <div className="min-h-screen bg-white">
             {/* Store Header */}
-            <header className="bg-purple-900 text-white py-16 px-6 text-center relative overflow-hidden">
-                <div className="bg-gradient-to-r from-purple-800 to-indigo-900 absolute inset-0 opacity-50"></div>
+            <header className="bg-purple-900 text-white py-24 px-6 text-center relative overflow-hidden min-h-[400px] flex items-center justify-center">
+                {store.image_url && (
+                    <img
+                        src={store.image_url}
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover opacity-30 scale-105 blur-sm"
+                    />
+                )}
+                <div className="bg-gradient-to-b from-purple-950/80 via-purple-900/70 to-purple-950/80 absolute inset-0"></div>
+
                 <div className="relative z-10 max-w-4xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white/90 text-sm font-medium mb-6">
-                        <Clock className="w-4 h-4" />
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 text-sm font-semibold mb-8 animate-fade-in">
+                        <Clock className="w-4 h-4 text-purple-300" />
                         <span>Open until {endDate.toLocaleDateString()}</span>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">{store.name}</h1>
-                    <p className="text-xl md:text-2xl text-purple-100 max-w-2xl mx-auto leading-relaxed">
-                        {store.description}
+                    <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tighter drop-shadow-2xl font-outfit">
+                        {store.name}
+                    </h1>
+                    <p className="text-xl md:text-3xl text-purple-100 max-w-3xl mx-auto leading-relaxed font-light italic">
+                        &quot;{store.description}&quot;
                     </p>
                 </div>
             </header>
@@ -70,7 +80,13 @@ export default async function ShopPage({ params }: { params: { slug: string } })
                         <div key={product.id} className="group">
                             <div className="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden mb-4 relative shadow-sm group-hover:shadow-xl transition-all">
                                 {product.image_url ? (
-                                    <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                                    <img
+                                        src={product.image_url}
+                                        alt={product.name}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        referrerPolicy="no-referrer"
+                                        loading="lazy"
+                                    />
                                 ) : (
                                     <div className="flex items-center justify-center h-full text-gray-300 bg-gray-50">No Image</div>
                                 )}

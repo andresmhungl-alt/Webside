@@ -121,16 +121,30 @@ export default async function Home() {
                   <Link
                     key={store.id}
                     href={`/shop/${store.slug}`}
-                    className="bg-purple-50/50 rounded-[2rem] p-8 border border-purple-100 hover:bg-white hover:shadow-xl hover:border-purple-200 transition-all group"
+                    className="bg-white rounded-[2.5rem] border border-purple-100 shadow-sm hover:shadow-2xl transition-all transform hover:-translate-y-2 group overflow-hidden flex flex-col h-[400px]"
                   >
-                    <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-purple-600 mb-6 shadow-sm group-hover:bg-purple-600 group-hover:text-white transition-all">
-                      <Store className="w-7 h-7" />
+                    <div className="h-40 w-full relative">
+                      {store.image_url ? (
+                        <img src={store.image_url} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                      ) : (
+                        <div className="w-full h-full bg-purple-50 flex items-center justify-center">
+                          <Store className="w-10 h-10 text-purple-200" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-60"></div>
                     </div>
-                    <h3 className="text-2xl font-bold mb-3 text-gray-900 group-hover:text-purple-700 transition-colors">{store.name}</h3>
-                    <p className="text-gray-600 leading-relaxed line-clamp-2 mb-6">{store.description}</p>
-                    <div className="flex items-center gap-2 text-purple-600 font-semibold text-sm">
-                      <Clock className="w-4 h-4" />
-                      <span>Ver Productos</span>
+
+                    <div className="p-8 pt-4 flex-1 flex flex-col">
+                      <h3 className="text-2xl font-bold mb-3 text-gray-900 group-hover:text-purple-700 transition-colors">{store.name}</h3>
+                      <p className="text-gray-600 leading-relaxed line-clamp-2 mb-6 flex-1 text-sm">{store.description}</p>
+
+                      <div className="flex items-center justify-between pt-6 border-t border-purple-50">
+                        <div className="flex items-center gap-2 text-purple-600 font-bold text-sm">
+                          <Clock className="w-4 h-4" />
+                          <span>Ver Colección</span>
+                        </div>
+                        <ArrowRight className="w-5 h-5 text-purple-300 group-hover:text-purple-600 group-hover:translate-x-1 transition-transform" />
+                      </div>
                     </div>
                   </Link>
                 ))}

@@ -68,32 +68,49 @@ export default async function MarketplacePage({
                                 <Link
                                     key={store.id}
                                     href={`/shop/${store.slug}`}
-                                    className="bg-white rounded-[2rem] border border-purple-50 p-6 shadow-sm hover:shadow-xl transition-all transform hover:-translate-y-1 group relative overflow-hidden"
+                                    className="bg-white rounded-[2rem] border border-purple-100 shadow-sm hover:shadow-2xl transition-all transform hover:-translate-y-2 group relative overflow-hidden flex flex-col h-[450px]"
                                 >
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700 opacity-50" />
+                                    {/* Store Cover Image */}
+                                    <div className="h-48 w-full relative overflow-hidden bg-purple-50">
+                                        {store.image_url ? (
+                                            <img src={store.image_url} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center">
+                                                <ShoppingBag className="w-12 h-12 text-purple-200" />
+                                            </div>
+                                        )}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                                            <span className="text-white font-semibold text-sm flex items-center gap-2">
+                                                Visitar Tienda <ArrowRight className="w-4 h-4" />
+                                            </span>
+                                        </div>
+                                    </div>
 
-                                    <div className="relative z-10">
-                                        <div className="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-700 mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                                            <Store className="w-7 h-7" />
+                                    <div className="p-8 flex flex-col flex-1 relative bg-white">
+                                        {/* Floating Avatar/Icon */}
+                                        <div className="absolute -top-10 left-8 w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-purple-700 shadow-xl border-4 border-white overflow-hidden z-20">
+                                            {store.image_url ? (
+                                                <img src={store.image_url} alt="" className="w-full h-full object-cover" />
+                                            ) : (
+                                                <Store className="w-8 h-8" />
+                                            )}
                                         </div>
 
-                                        <div className="mb-4">
-                                            <h3 className="text-2xl font-bold text-gray-900 mb-2 truncate group-hover:text-purple-700 transition-colors">
+                                        <div className="pt-8 flex-1">
+                                            <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-700 transition-colors">
                                                 {store.name}
                                             </h3>
-                                            <p className="text-gray-500 line-clamp-2 text-sm leading-relaxed">
+                                            <p className="text-gray-500 line-clamp-3 text-sm leading-relaxed mb-6">
                                                 {store.description}
                                             </p>
                                         </div>
 
-                                        <div className="flex items-center gap-3 pt-4 border-t border-purple-50">
-                                            <div className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 ${isClosingSoon ? 'bg-amber-50 text-amber-600' : 'bg-green-50 text-green-600'
+                                        <div className="flex items-center gap-3 pt-6 border-t border-purple-50 mt-auto">
+                                            <div className={`px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 ${isClosingSoon ? 'bg-amber-50 text-amber-600' : 'bg-green-50 text-green-600'
                                                 }`}>
                                                 <Clock className="w-3.5 h-3.5" />
-                                                <span>Hasta {endDate.toLocaleDateString()}</span>
+                                                <span>Cierra: {endDate.toLocaleDateString()}</span>
                                             </div>
-                                            <div className="flex-1" />
-                                            <ArrowRight className="w-5 h-5 text-purple-300 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
                                         </div>
                                     </div>
                                 </Link>
