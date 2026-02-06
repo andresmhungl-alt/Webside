@@ -3,75 +3,7 @@ import { redirect } from 'next/navigation'
 import { createStore, addProduct, signOut } from '@/app/actions'
 import { Calendar, Plus, Package, Store as StoreIcon, Clock, LogOut } from 'lucide-react'
 
-// Components
-function CreateStoreForm() {
-    return (
-        <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-purple-50 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 to-indigo-500"></div>
-            <div className="mb-10 text-center">
-                <div className="mx-auto w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mb-6">
-                    <StoreIcon className="w-10 h-10 text-purple-600" />
-                </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Your Store</h2>
-                <p className="text-gray-500 max-w-md mx-auto">Launch your pop-up market in seconds. Define your duration and start selling.</p>
-            </div>
-
-            <form action={async (formData) => {
-                'use server'
-                await createStore(formData)
-            }} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide text-xs">Store Name</label>
-                        <input name="name" type="text" required className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all outline-none" placeholder="e.g. Andean Wool" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide text-xs">URL Slug</label>
-                        <div className="flex">
-                            <span className="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-gray-200 bg-gray-50 text-gray-500 text-sm font-medium">aranya.com/</span>
-                            <input name="slug" type="text" required className="flex-1 w-full px-5 py-3 rounded-r-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all outline-none" placeholder="andean-wool" />
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide text-xs">Description</label>
-                    <textarea name="description" rows={3} className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all outline-none" placeholder="Tell the story of your wool..." />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide text-xs">Store Cover Image</label>
-                    <label className="mt-1 flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-purple-400 hover:bg-purple-50/30 transition-all cursor-pointer bg-gray-50/50 group">
-                        <input name="image" type="file" accept="image/*" className="sr-only" />
-                        <div className="space-y-2 text-center">
-                            <Plus className="mx-auto h-12 w-12 text-gray-400 group-hover:text-purple-500 transition-colors" />
-                            <div className="flex text-sm text-gray-600">
-                                <span className="font-medium text-purple-600 hover:text-purple-500">Haz clic para subir una imagen</span>
-                                <p className="pl-1 text-gray-500">o arrastra y suelta</p>
-                            </div>
-                            <p className="text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
-                        </div>
-                    </label>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                        <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide text-xs flex items-center gap-2"><Clock className="w-4 h-4 text-purple-500" /> Opens On</label>
-                        <input name="start_date" type="datetime-local" required className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all outline-none bg-white" />
-                    </div>
-                    <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                        <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide text-xs flex items-center gap-2"><Clock className="w-4 h-4 text-purple-500" /> Closes On</label>
-                        <input name="end_date" type="datetime-local" required className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all outline-none bg-white" />
-                    </div>
-                </div>
-
-                <button type="submit" className="w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-lg hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 active:translate-y-0">
-                    Launch Store
-                </button>
-            </form>
-        </div>
-    )
-}
+import { CreateStoreForm } from './CreateStoreForm'
 
 interface Product {
     id: string
