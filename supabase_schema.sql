@@ -7,6 +7,7 @@ create table public.stores (
   description text,
   start_date timestamp with time zone not null,
   end_date timestamp with time zone not null,
+  image_url text,
   created_at timestamp with time zone not null default now(),
   primary key (id)
 );
@@ -75,3 +76,12 @@ create policy "Give public access to product images" on storage.objects
 
 create policy "Users can upload product images" on storage.objects
   for insert with check ( bucket_id = 'products' and auth.role() = 'authenticated' );
+
+-- Storage Bucket for Store Images
+insert into storage.buckets (id, name, public) values ('stores', 'stores', true);
+
+create policy "Give public access to store images" on storage.objects
+  for select using ( bucket_id = 'stores' );
+
+create policy "Users can upload store images" on storage.objects
+  for insert with check ( bucket_id = 'stores' and auth.role() = 'authenticated' );

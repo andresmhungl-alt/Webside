@@ -11,28 +11,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-purple-200">
-      {/* Navbar */}
-      <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-purple-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2 text-purple-900 font-bold text-2xl tracking-tight">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <ShoppingBag className="h-6 w-6 text-purple-700" />
-            </div>
-            <span className="font-outfit">Aranya</span>
-          </div>
-          <div className="flex gap-4 items-center">
-            <Link href="/marketplace" className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 transition-colors">
-              Explorar Tiendas
-            </Link>
-            <Link href="/login" className="hidden md:block px-5 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 transition-colors">
-              Log In
-            </Link>
-            <Link href="/login" className="px-6 py-2.5 text-sm font-medium bg-purple-600 text-white rounded-full hover:bg-purple-700 shadow-lg hover:shadow-purple-200 transition-all transform hover:-translate-y-0.5">
-              Start Selling
-            </Link>
-          </div>
-        </div>
-      </nav>
+
 
       <main className="pt-24">
         {/* Hero Section */}

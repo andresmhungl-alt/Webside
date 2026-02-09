@@ -1,8 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
-import { Clock, ArrowLeft } from 'lucide-react'
+import { Clock, ArrowLeft, Store } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { StoreAdminControls, DeleteProductButton } from './StoreAdminControls'
 
 // Force dynamic behavior because we rely on dates/time
 export const dynamic = 'force-dynamic'
@@ -16,6 +17,9 @@ export default async function ShopPage({ params }: { params: { slug: string } })
         .select('*')
         .eq('slug', slug)
         .single()
+
+    const { data: { user } } = await supabase.auth.getUser()
+    const isOwner = user?.id === store?.user_id
 
     if (!store) {
         notFound()
@@ -53,42 +57,21 @@ export default async function ShopPage({ params }: { params: { slug: string } })
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Sticky Navigation */}
-            <nav className="bg-white/90 backdrop-blur-md border-b border-purple-100 sticky top-0 z-50 transition-all duration-300 shadow-sm">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <Link href="/marketplace" className="flex items-center gap-3 bg-purple-600 text-white px-5 py-2.5 rounded-full font-bold hover:bg-purple-700 transition-all shadow-lg hover:shadow-purple-200 hover:-translate-x-1 group">
-                        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                        <span className="text-sm">Explora mercado</span>
-                    </Link>
-                    <div className="hidden md:flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-full border border-gray-100">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tienda Verificada</span>
-                    </div>
-                </div>
-            </nav>
+
 
             {/* Store Header */}
             <header className="bg-purple-900 text-white py-24 px-6 text-center relative overflow-hidden min-h-[400px] flex items-center justify-center">
-                {store.image_url && (
-                    <Image
-                        src={store.image_url}
-                        alt=""
-                        fill
-                        className="absolute inset-0 w-full h-full object-cover opacity-40 scale-105 blur-sm"
-                        unoptimized
-                    />
-                )}
-                <div className="bg-gradient-to-b from-purple-950/80 via-purple-900/70 to-purple-950/80 absolute inset-0"></div>
+                <div className="bg-gradient-to-b from-purple-950/60 via-purple-900/40 to-purple-950/80 absolute inset-0"></div>
 
                 <div className="relative z-10 max-w-4xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 text-sm font-semibold mb-8 animate-fade-in">
-                        <Clock className="w-4 h-4 text-purple-300" />
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 text-sm font-semibold mb-8 animate-fade-in shadow-xl">
+                        <Clock className="w-4 h-4 text-purple-200" />
                         <span>Abierto hasta {endDate.toLocaleDateString()}</span>
                     </div>
                     <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tighter drop-shadow-2xl font-outfit uppercase">
                         {store.name}
                     </h1>
-                    <p className="text-xl md:text-3xl text-purple-100 max-w-3xl mx-auto leading-relaxed font-light italic">
+                    <p className="text-xl md:text-3xl text-white max-w-3xl mx-auto leading-relaxed font-medium drop-shadow-lg italic">
                         &quot;{store.description}&quot;
                     </p>
                 </div>
@@ -98,7 +81,12 @@ export default async function ShopPage({ params }: { params: { slug: string } })
             <main className="max-w-7xl mx-auto px-6 py-16">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
                     {products?.map((product) => (
-                        <div key={product.id} className="group">
+                        <div key={product.id} className="group relative product-card-container">
+                            {isOwner && (
+                                <div className="delete-overlay hidden absolute inset-0 z-30 flex items-start justify-end p-4">
+                                    <DeleteProductButton productId={product.id} />
+                                </div>
+                            )}
                             <div className="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden mb-4 relative shadow-sm group-hover:shadow-xl transition-all">
                                 {product.image_url ? (
                                     <Image
@@ -132,6 +120,8 @@ export default async function ShopPage({ params }: { params: { slug: string } })
                     </div>
                 )}
             </main>
+
+            {isOwner && <StoreAdminControls store={store} />}
 
             <footer className="bg-gray-50 text-center py-10 border-t border-gray-100 mt-20">
                 <p className="text-gray-400 text-sm">Powered by Aranya</p>

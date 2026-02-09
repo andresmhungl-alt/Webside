@@ -85,29 +85,9 @@ export default async function Dashboard() {
 
     return (
         <div className="min-h-screen bg-gray-50 pb-24">
-            <nav className="bg-white border-b border-gray-200 sticky top-0 z-40 bg-white/80 backdrop-blur-md">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <div className="flex items-center gap-2 font-bold text-xl text-gray-900">
-                        <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white">
-                            <StoreIcon className="w-5 h-5" />
-                        </div>
-                        <span className="font-outfit">Aranya Dashboard</span>
-                    </div>
-                    <div className="text-sm text-gray-500 flex items-center gap-6">
-                        <div className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span className="font-medium text-gray-700">{user.email}</span>
-                        </div>
-                        <form action={signOut}>
-                            <button className="text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1 font-medium hover:bg-red-50 px-3 py-1.5 rounded-lg" title="Sign Out">
-                                <LogOut className="w-4 h-4" /> Sign Out
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </nav>
 
-            <main className="max-w-7xl mx-auto px-6 py-12">
+
+            <main className="max-w-7xl mx-auto px-6 pt-28 pb-12">
                 {!stores ? (
                     <CreateStoreForm />
                 ) : (

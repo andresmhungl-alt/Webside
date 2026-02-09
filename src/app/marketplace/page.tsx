@@ -15,22 +15,7 @@ export default async function MarketplacePage({
 
     return (
         <div className="min-h-screen bg-[#faf9fe]">
-            {/* Navigation */}
-            <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-purple-100">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <Link href="/" className="flex items-center gap-2 text-purple-900 font-bold text-2xl tracking-tight">
-                        <div className="p-2 bg-purple-100 rounded-lg">
-                            <ShoppingBag className="h-6 w-6 text-purple-700" />
-                        </div>
-                        <span className="font-outfit">Aranya</span>
-                    </Link>
-                    <div className="flex gap-4 items-center">
-                        <Link href="/login" className="px-6 py-2.5 text-sm font-medium bg-purple-600 text-white rounded-full hover:bg-purple-700 shadow-lg hover:shadow-purple-200 transition-all transform hover:-translate-y-0.5">
-                            Start Selling
-                        </Link>
-                    </div>
-                </div>
-            </nav>
+
 
             <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
@@ -71,22 +56,12 @@ export default async function MarketplacePage({
                                     href={`/shop/${store.slug}`}
                                     className="bg-white rounded-[2rem] border border-purple-100 shadow-sm hover:shadow-2xl transition-all transform hover:-translate-y-2 group relative overflow-hidden flex flex-col h-[450px]"
                                 >
-                                    {/* Store Cover Image */}
-                                    <div className="h-48 w-full relative overflow-hidden bg-purple-50">
-                                        {store.image_url ? (
-                                            <Image
-                                                src={store.image_url}
-                                                alt=""
-                                                fill
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                                                unoptimized
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center">
-                                                <ShoppingBag className="w-12 h-12 text-purple-200" />
-                                            </div>
-                                        )}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                                    {/* Store Cover Header Placeholder */}
+                                    <div className="h-32 w-full relative overflow-hidden bg-gradient-to-br from-purple-100 to-indigo-50">
+                                        <div className="w-full h-full flex items-center justify-center opacity-30">
+                                            <ShoppingBag className="w-12 h-12 text-purple-700" />
+                                        </div>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
                                             <span className="text-white font-semibold text-sm flex items-center gap-2">
                                                 Visitar Tienda <ArrowRight className="w-4 h-4" />
                                             </span>
@@ -95,17 +70,7 @@ export default async function MarketplacePage({
 
                                     <div className="p-8 flex flex-col flex-1 relative bg-white">
                                         <div className="absolute -top-10 left-8 w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-purple-700 shadow-xl border-4 border-white overflow-hidden z-20">
-                                            {store.image_url ? (
-                                                <Image
-                                                    src={store.image_url}
-                                                    alt=""
-                                                    fill
-                                                    className="w-full h-full object-cover"
-                                                    unoptimized
-                                                />
-                                            ) : (
-                                                <Store className="w-8 h-8" />
-                                            )}
+                                            <Store className="w-8 h-8" />
                                         </div>
 
                                         <div className="pt-8 flex-1">
