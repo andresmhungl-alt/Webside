@@ -46,7 +46,7 @@ export default async function Navbar() {
                     ) : (
                         <div className="flex items-center gap-2">
                             <Link href="/login" className="px-5 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 transition-colors">
-                                Log In
+                                Iniciar Sesión
                             </Link>
                             <Link
                                 href="/login"

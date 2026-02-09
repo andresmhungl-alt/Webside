@@ -31,7 +31,7 @@ export default function LoginPage() {
                     },
                 })
                 if (error) throw error
-                setMessage({ type: 'success', text: 'Check your email for the confirmation link.' })
+                setMessage({ type: 'success', text: 'Revisa tu correo para el enlace de confirmación.' })
             } else {
                 const { error } = await supabase.auth.signInWithPassword({
                     email,
@@ -42,7 +42,7 @@ export default function LoginPage() {
                 router.push('/dashboard')
             }
         } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : 'An error occurred'
+            const errorMessage = error instanceof Error ? error.message : 'Ocurrió un error'
             setMessage({ type: 'error', text: errorMessage })
         } finally {
             setLoading(false)
@@ -63,9 +63,9 @@ export default function LoginPage() {
                     <div className="mb-8 w-20 h-20 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto border border-white/20 shadow-2xl">
                         <ShoppingBag className="w-10 h-10 text-white" />
                     </div>
-                    <h1 className="text-5xl font-bold mb-6 font-outfit tracking-tight">Welcome to Aranya</h1>
+                    <h1 className="text-5xl font-bold mb-6 font-outfit tracking-tight">Bienvenido a Aranya</h1>
                     <p className="text-purple-100 text-xl leading-relaxed font-light">
-                        The exclusive pop-up market for wool artisans. Create your store, showcase your collection, and sell for a limited time.
+                        El mercado pop-up exclusivo para artesanos de la lana. Crea tu tienda, muestra tu colección y vende por tiempo limitado.
                     </p>
                 </div>
             </div>
@@ -73,20 +73,20 @@ export default function LoginPage() {
             {/* Right Side - Form */}
             <div className="flex flex-col justify-center p-8 sm:p-20 lg:p-24 bg-white relative">
                 <Link href="/" className="absolute top-8 left-8 text-gray-400 hover:text-purple-600 transition-colors flex items-center gap-2 text-sm font-medium">
-                    <ArrowLeft className="w-4 h-4" /> Back to Home
+                    <ArrowLeft className="w-4 h-4" /> Volver al Inicio
                 </Link>
 
                 <div className="w-full max-w-md mx-auto">
                     <div className="mb-10">
-                        <h2 className="text-3xl font-bold text-gray-900 mb-2">{isSignUp ? 'Create Account' : 'Welcome Back'}</h2>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-2">{isSignUp ? 'Crear Cuenta' : 'Bienvenido de Nuevo'}</h2>
                         <p className="text-gray-500">
-                            {isSignUp ? 'Enter your details to start selling.' : 'Please enter your details to sign in.'}
+                            {isSignUp ? 'Ingresa tus datos para empezar a vender.' : 'Por favor ingresa tus datos para iniciar sesión.'}
                         </p>
                     </div>
 
                     <form onSubmit={handleAuth} className="space-y-6">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Correo Electrónico</label>
                             <input
                                 type="email"
                                 required
@@ -97,7 +97,7 @@ export default function LoginPage() {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
                             <input
                                 type="password"
                                 required
@@ -127,20 +127,20 @@ export default function LoginPage() {
                             {loading ? (
                                 <Loader2 className="animate-spin h-5 w-5" />
                             ) : isSignUp ? (
-                                'Create Account'
+                                'Crear Cuenta'
                             ) : (
-                                'Sign In'
+                                'Iniciar Sesión'
                             )}
                         </button>
                     </form>
 
                     <div className="mt-8 text-center text-sm text-gray-500">
-                        {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+                        {isSignUp ? '¿Ya tienes una cuenta?' : "¿No tienes una cuenta?"}{' '}
                         <button
                             onClick={() => setIsSignUp(!isSignUp)}
                             className="text-purple-600 hover:text-purple-800 font-semibold hover:underline"
                         >
-                            {isSignUp ? 'Log In' : 'Sign Up'}
+                            {isSignUp ? 'Iniciar Sesión' : 'Registrarse'}
                         </button>
                     </div>
                 </div>

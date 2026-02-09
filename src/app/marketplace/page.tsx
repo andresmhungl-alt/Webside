@@ -56,12 +56,20 @@ export default async function MarketplacePage({
                                     href={`/shop/${store.slug}`}
                                     className="bg-white rounded-[2rem] border border-purple-100 shadow-sm hover:shadow-2xl transition-all transform hover:-translate-y-2 group relative overflow-hidden flex flex-col h-[450px]"
                                 >
-                                    {/* Store Cover Header Placeholder */}
-                                    <div className="h-32 w-full relative overflow-hidden bg-gradient-to-br from-purple-100 to-indigo-50">
-                                        <div className="w-full h-full flex items-center justify-center opacity-30">
-                                            <ShoppingBag className="w-12 h-12 text-purple-700" />
-                                        </div>
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                                    {/* Store Cover Header */}
+                                    <div className="h-32 w-full relative overflow-hidden bg-gray-100">
+                                        {store.image_url ? (
+                                            <img
+                                                src={store.image_url}
+                                                alt={store.name}
+                                                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full bg-gradient-to-br from-purple-100 to-indigo-50 flex items-center justify-center opacity-30">
+                                                <ShoppingBag className="w-12 h-12 text-purple-700" />
+                                            </div>
+                                        )}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                                             <span className="text-white font-semibold text-sm flex items-center gap-2">
                                                 Visitar Tienda <ArrowRight className="w-4 h-4" />
                                             </span>

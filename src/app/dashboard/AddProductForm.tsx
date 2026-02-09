@@ -44,19 +44,19 @@ export function AddProductForm({ storeId }: { storeId: string }) {
                     <div className="w-12 h-12 bg-purple-100 rounded-full shadow-sm flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform text-purple-600">
                         <Plus className="w-6 h-6" />
                     </div>
-                    <h3 className="font-bold text-gray-900">Add New Product</h3>
+                    <h3 className="font-bold text-gray-900">Añadir Nuevo Producto</h3>
                 </div>
 
                 <div className="space-y-3">
-                    <input name="name" placeholder="Product Name" required className="w-full text-sm px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all" />
+                    <input name="name" placeholder="Nombre del Producto" required className="w-full text-sm px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all" />
 
                     <div className="grid grid-cols-2 gap-3">
-                        <input name="price" type="number" step="0.01" placeholder="Price" required className="w-full text-sm px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all" />
+                        <input name="price" type="number" step="0.01" placeholder="Precio" required className="w-full text-sm px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all" />
 
                         <div className="relative">
                             <label className={`flex items-center justify-center h-full px-4 py-2.5 rounded-lg border text-sm font-medium cursor-pointer transition-all ${preview ? 'bg-purple-600 border-purple-600 text-white' : 'bg-gray-100 border-gray-200 text-gray-600 hover:bg-gray-200'}`}>
                                 <ImageIcon className={`w-4 h-4 mr-2 ${preview ? 'animate-pulse' : ''}`} />
-                                {preview ? 'Ready' : 'Image'}
+                                {preview ? 'Listo' : 'Imagen'}
                                 <input name="image" type="file" accept="image/*" className="sr-only" onChange={handleImageChange} />
                             </label>
                         </div>
@@ -64,7 +64,7 @@ export function AddProductForm({ storeId }: { storeId: string }) {
 
                     {preview && (
                         <div className="relative rounded-xl overflow-hidden h-32 border border-purple-100 shadow-inner group/preview animate-in zoom-in-95 duration-300">
-                            <img src={preview} alt="Product preview" className="w-full h-full object-cover" />
+                            <img src={preview} alt="Vista previa del producto" className="w-full h-full object-cover" />
                             <button
                                 onClick={removeImage}
                                 className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full opacity-0 group-hover/preview:opacity-100 transition-opacity"
@@ -74,7 +74,7 @@ export function AddProductForm({ storeId }: { storeId: string }) {
                         </div>
                     )}
 
-                    <textarea name="description" rows={2} placeholder="Product Description" className="w-full text-sm px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none resize-none transition-all"></textarea>
+                    <textarea name="description" rows={2} placeholder="Descripción del Producto" className="w-full text-sm px-4 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none resize-none transition-all"></textarea>
 
                     <button
                         type="submit"
@@ -84,10 +84,10 @@ export function AddProductForm({ storeId }: { storeId: string }) {
                         {isSubmitting ? (
                             <>
                                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                Adding...
+                                Añadiendo...
                             </>
                         ) : (
-                            'Add to Store'
+                            'Añadir a la Tienda'
                         )}
                     </button>
                 </div>

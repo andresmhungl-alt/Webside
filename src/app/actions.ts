@@ -20,16 +20,38 @@ export async function createStore(formData: FormData) {
 
     const name = formData.get('name') as string
     const description = formData.get('description') as string
-    const slug = formData.get('slug') as string
+    const imageFile = formData.get('image') as File
     const startDate = formData.get('start_date') as string
     const endDate = formData.get('end_date') as string
 
-    console.log('--- Action CreateStore ---')
-    console.log('Name:', name)
-    console.log('Slug:', slug)
-
-    if (!name || !slug || !startDate || !endDate) {
+    if (!name || !startDate || !endDate) {
         return { error: 'Por favor completa todos los campos obligatorios.' }
+    }
+
+    // Auto-generate slug
+    const slug = name.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '')
+        + '-' + Math.random().toString(36).substring(2, 7)
+
+    let imageUrl = null
+
+    if (imageFile && imageFile.size > 0) {
+        const filename = `${user.id}/${Date.now()}-${imageFile.name}`
+        const { error: uploadError } = await supabase.storage
+            .from('stores')
+            .upload(filename, imageFile)
+
+        if (uploadError) {
+            console.error('Store image upload failed:', uploadError)
+            return { error: 'Error al subir la imagen: ' + uploadError.message }
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+            .from('stores')
+            .getPublicUrl(filename)
+
+        imageUrl = publicUrl
     }
 
     const { error } = await supabase.from('stores').insert({
@@ -39,6 +61,7 @@ export async function createStore(formData: FormData) {
         description,
         start_date: startDate,
         end_date: endDate,
+        image_url: imageUrl
     })
 
     if (error) {
@@ -48,7 +71,6 @@ export async function createStore(formData: FormData) {
 
     revalidatePath('/dashboard')
     revalidatePath('/marketplace')
-    revalidatePath(`/shop/${slug}`)
     revalidatePath('/shop/[slug]', 'page')
     return { success: true }
 }

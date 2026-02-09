@@ -19,21 +19,21 @@ export default async function Home() {
           <div className="space-y-8 z-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 text-purple-700 text-sm font-semibold tracking-wide border border-purple-100">
               <Star className="w-4 h-4 fill-purple-700" />
-              <span>The Premier Pop-Up Wool Market</span>
+              <span>El Mercado de Lana Premier</span>
             </div>
             <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 leading-[1.1] font-outfit">
-              Weave Your Story.<br />
+              Teje tu historia.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-fuchsia-500 to-indigo-500 animate-gradient">
-                Share Your Wool.
+                Comparte tu Lana.
               </span>
             </h1>
             <p className="max-w-lg text-lg text-gray-600 leading-relaxed">
-              Aranya connects artisans with wool lovers through exclusive, time-limited pop-up shops. Launch your collection in seconds.
+              Aranya conecta artesanos con amantes de la lana a través de tiendas pop-up exclusivas por tiempo limitado. Lanza tu colección en segundos.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link href="/login" className="px-8 py-4 text-lg font-semibold bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl flex items-center justify-center gap-2 group">
-                Create Store <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                Crear Tienda <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link href="/marketplace" className="px-8 py-4 text-lg font-semibold bg-white text-gray-900 border border-gray-200 rounded-full hover:bg-gray-50 transition-all shadow-sm">
                 Explorar Tiendas
@@ -48,7 +48,7 @@ export default async function Home() {
                   </div>
                 ))}
               </div>
-              <p>Joined by 1,000+ artisans</p>
+              <p>Se han unido más de 1,000 artesanos</p>
             </div>
           </div>
 
@@ -66,15 +66,15 @@ export default async function Home() {
             <div className="absolute bottom-8 left-8 right-8 z-20 hidden md:block">
               <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex items-center justify-between">
                 <div>
-                  <p className="text-white font-bold text-lg">Featured Collection</p>
-                  <p className="text-purple-100 text-sm">Handwoven Alpaca Series</p>
+                  <p className="text-white font-bold text-lg">Colección Destacada</p>
+                  <p className="text-purple-100 text-sm">Serie de Alpaca Tejida a Mano</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" referrerPolicy="no-referrer" />
-                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" referrerPolicy="no-referrer" />
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="Usuario" referrerPolicy="no-referrer" />
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="Usuario" referrerPolicy="no-referrer" />
                   </div>
-                  <span className="text-white text-xs font-medium">+120 others viewing</span>
+                  <span className="text-white text-xs font-medium">+120 otros viendo</span>
                 </div>
               </div>
             </div>
@@ -136,15 +136,15 @@ export default async function Home() {
         <section id="features" className="py-24 bg-gray-50">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Aranya?</h2>
-              <p className="text-gray-600 text-lg">Designed for simplicity and elegance. Focus on your craft, we handle the platform.</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">¿Por qué elegir Aranya?</h2>
+              <p className="text-gray-600 text-lg">Diseñado para la simplicidad y la elegancia. Enfócate en tu arte, nosotros manejamos la plataforma.</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {[
-                { icon: TrendingUp, title: 'Instant Setup', desc: 'From signup to sales in minutes. No complex configuration required.' },
-                { icon: Clock, title: 'Ephemeral Markets', desc: 'Create urgency with time-limited stores. Perfect for seasonal drops.' },
-                { icon: ShoppingBag, title: 'Curated Experience', desc: 'A beautiful, distraction-free environment that highlights your products.' }
+                { icon: TrendingUp, title: 'Configuración Instantánea', desc: 'Del registro a las ventas en minutos. No se requiere configuración compleja.' },
+                { icon: Clock, title: 'Mercados Efímeros', desc: 'Crea urgencia con tiendas por tiempo limitado. Perfecto para lanzamientos de temporada.' },
+                { icon: ShoppingBag, title: 'Experiencia Curada', desc: 'Un entorno hermoso y libre de distracciones que resalta tus productos.' }
               ].map((feature, i) => (
                 <div key={i} className="bg-white p-8 rounded-3xl shadow-sm hover:shadow-lg transition-all border border-gray-100 group">
                   <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center mb-6 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
@@ -165,7 +165,7 @@ export default async function Home() {
             <ShoppingBag className="h-6 w-6 text-purple-600" />
             <span>Aranya</span>
           </div>
-          <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Aranya Inc. All rights reserved.</p>
+          <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Aranya Inc. Todos los derechos reservados.</p>
         </div>
       </footer>
     </div >

@@ -40,11 +40,11 @@ export default async function ShopPage({ params }: { params: { slug: string } })
                 <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-6">
                     <Clock className="w-10 h-10 text-gray-500" />
                 </div>
-                <h1 className="text-4xl font-bold mb-4">{store.name} is Closed</h1>
+                <h1 className="text-4xl font-bold mb-4">{store.name} está Cerrada</h1>
                 <p className="max-w-md text-xl text-gray-600">
                     {isNotStarted
-                        ? `This pop-up market hasn't opened yet. Come back on ${startDate.toLocaleDateString()}.`
-                        : "This pop-up market has ended. Thank you for visiting."}
+                        ? `Este mercado pop-up aún no ha abierto. Vuelve el ${startDate.toLocaleDateString()}.`
+                        : "Este mercado pop-up ha terminado. Gracias por visitarnos."}
                 </p>
             </div>
         )
@@ -97,7 +97,7 @@ export default async function ShopPage({ params }: { params: { slug: string } })
                                         unoptimized
                                     />
                                 ) : (
-                                    <div className="flex items-center justify-center h-full text-gray-300 bg-gray-50">No Image</div>
+                                    <div className="flex items-center justify-center h-full text-gray-300 bg-gray-50">Sin Imagen</div>
                                 )}
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
                             </div>
@@ -116,7 +116,7 @@ export default async function ShopPage({ params }: { params: { slug: string } })
 
                 {(!products || products.length === 0) && (
                     <div className="text-center py-20 text-gray-500">
-                        <p className="text-gray-500">This store hasn&apos;t opened yet or has already closed.</p>
+                        <p className="text-gray-500">Esta tienda aún no ha abierto o ya ha cerrado sus puertas.</p>
                     </div>
                 )}
             </main>
@@ -124,7 +124,7 @@ export default async function ShopPage({ params }: { params: { slug: string } })
             {isOwner && <StoreAdminControls store={store} />}
 
             <footer className="bg-gray-50 text-center py-10 border-t border-gray-100 mt-20">
-                <p className="text-gray-400 text-sm">Powered by Aranya</p>
+                <p className="text-gray-400 text-sm">Desarrollado por Aranya</p>
             </footer>
         </div>
     )
