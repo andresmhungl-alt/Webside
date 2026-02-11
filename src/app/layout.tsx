@@ -28,6 +28,7 @@ export const metadata: Metadata = {
 };
 
 import Navbar from "@/components/Navbar";
+import { CartWarning } from "@/components/CartWarning";
 
 export default function RootLayout({
   children,
@@ -41,6 +42,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <CartWarning />
       </body>
     </html>
   );

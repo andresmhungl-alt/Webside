@@ -162,7 +162,8 @@ export async function updateStore(storeId: string, formData: FormData) {
 
         if (error) throw error
     } catch (err: any) {
-        return { error: err.message }
+        console.error('Error updating store:', err)
+        return { error: err.message || 'Error al actualizar la tienda' }
     }
 
     revalidateAll()

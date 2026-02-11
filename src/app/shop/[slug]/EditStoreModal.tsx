@@ -79,8 +79,9 @@ export function EditStoreModal({ store, isOpen, onClose }: EditStoreModalProps) 
                             } else if (result?.error) {
                                 setError(result.error)
                             }
-                        } catch (err) {
-                            setError('Error al actualizar la tienda')
+                        } catch (err: any) {
+                            console.error('Update error:', err)
+                            setError(err.message || 'Error al actualizar la tienda')
                         } finally {
                             setIsSubmitting(false)
                         }
@@ -144,6 +145,31 @@ export function EditStoreModal({ store, isOpen, onClose }: EditStoreModalProps) 
                             </div>
                         )}
                     </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-2">
+                        <div>
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-4">Fecha de Apertura</label>
+                            <input
+                                name="start_date"
+                                type="datetime-local"
+                                required
+                                defaultValue={formatDateForInput(store.start_date)}
+                                className="w-full px-6 py-4 rounded-2xl border border-gray-200 focus:border-purple-500 transition-all outline-none text-gray-700 font-medium bg-gray-50/50 font-outfit text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-4">Fecha de Cierre</label>
+                            <input
+                                name="end_date"
+                                type="datetime-local"
+                                required
+                                defaultValue={formatDateForInput(store.end_date)}
+                                className="w-full px-6 py-4 rounded-2xl border border-gray-200 focus:border-purple-500 transition-all outline-none text-gray-700 font-medium bg-gray-50/50 font-outfit text-sm"
+                            />
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="current_image_url" value={store.image_url || ''} />
 
                     <div className="border-t border-red-100 pt-6 mt-6">
                         <div className="bg-red-50 border border-red-200 rounded-xl p-4">

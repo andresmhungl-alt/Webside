@@ -165,12 +165,7 @@ export default function CartPage() {
                                                 <span className="w-10 text-center font-black text-gray-900 text-sm">{item.quantity}</span>
                                                 <button
                                                     onClick={() => {
-                                                        const currentStock = Number(item.slot ?? 99);
-                                                        if (item.quantity < currentStock) {
-                                                            updateQuantity(item.id, item.quantity + 1)
-                                                        } else {
-                                                            alert(`Solo quedan ${currentStock} unidades disponibles.`)
-                                                        }
+                                                        updateQuantity(item.id, item.quantity + 1)
                                                     }}
                                                     className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-purple-600 hover:bg-white rounded-lg transition-all active:scale-90"
                                                 >

@@ -37,7 +37,9 @@ export const addToCart = (product: any) => {
 
         // Prevent adding more than stock if stock is known
         if (stock !== null && existingItem.quantity >= stock) {
-            alert(`No hay más stock disponible para ${product.name}.`)
+            window.dispatchEvent(new CustomEvent('cart-warning', {
+                detail: { message: `No hay más stock disponible para ${product.name}.` }
+            }))
             return
         }
         existingItem.quantity += 1
@@ -57,7 +59,17 @@ export const updateQuantity = (productId: string, quantity: number) => {
     const cart = getCart()
     const item = cart.find(item => item.id === productId)
     if (item) {
-        item.quantity = Math.max(1, quantity)
+        const stock = item.slot !== null ? Number(item.slot) : 999
+
+        if (quantity > stock) {
+            window.dispatchEvent(new CustomEvent('cart-warning', {
+                detail: { message: `Solo quedan ${stock} unidades disponibles.` }
+            }))
+            item.quantity = stock
+        } else {
+            item.quantity = Math.max(1, quantity)
+        }
+
         saveCart(cart)
     }
 }
