@@ -5,14 +5,7 @@ import Image from 'next/image'
 import { Package, ShoppingCart, Info } from 'lucide-react'
 import { addToCart } from '@/utils/cart'
 
-interface Product {
-    id: string
-    name: string
-    price: number
-    image_url: string | null
-    description: string | null
-    slot?: number | null
-}
+import { Product } from '@/types/product'
 
 interface ProductCardProps {
     product: Product

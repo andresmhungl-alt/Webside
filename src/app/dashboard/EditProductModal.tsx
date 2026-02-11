@@ -5,14 +5,7 @@ import { createPortal } from 'react-dom'
 import { X, Save, UploadCloud } from 'lucide-react'
 import { updateProduct } from '@/app/actions'
 
-interface Product {
-    id: string
-    name: string
-    price: number
-    description: string | null
-    image_url: string | null
-    slot: number | null | undefined
-}
+import { Product } from '@/types/product'
 
 interface EditProductModalProps {
     product: Product

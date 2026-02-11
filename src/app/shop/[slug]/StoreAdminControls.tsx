@@ -170,14 +170,7 @@ export function DeleteProductButton({ productId }: { productId: string }) {
 }
 
 // Product interface that matches exactly what EditProductModal expects
-interface Product {
-    id: string
-    name: string
-    price: number
-    description: string | null
-    image_url: string | null
-    slot: number | null | undefined
-}
+import { Product } from '@/types/product'
 
 // Helper component for editing products that will be used in the product grid
 export function EditProductButton({ product }: { product: Product }) {

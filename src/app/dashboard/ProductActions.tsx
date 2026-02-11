@@ -5,14 +5,7 @@ import { Pencil, Trash2, X, AlertCircle } from 'lucide-react'
 import { deleteProduct } from '@/app/actions'
 import { EditProductModal } from './EditProductModal'
 
-interface Product {
-    id: string
-    name: string
-    price: number
-    image_url: string | null
-    description: string | null
-    slot?: number | null
-}
+import { Product } from '@/types/product'
 
 export function ProductActions({ product }: { product: Product }) {
     const [isEditing, setIsEditing] = useState(false)

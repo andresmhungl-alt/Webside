@@ -11,14 +11,7 @@ import { ProductCard } from '@/components/ProductCard'
 import { WelcomeSection } from './WelcomeSection'
 import { getMaxProductsLimit } from '@/utils/constants'
 
-interface Product {
-    id: string
-    name: string
-    price: number
-    image_url: string | null
-    description: string | null
-    slot?: number | null
-}
+import { Product } from '@/types/product'
 
 function ProductList({ storeId, products }: { storeId: string, products: Product[] }) {
     const finalMax = getMaxProductsLimit()
