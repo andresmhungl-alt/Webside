@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ShoppingBag, ArrowLeft, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -14,6 +14,7 @@ export default function LoginPage() {
     const [isSignUp, setIsSignUp] = useState(false)
 
     const router = useRouter()
+    const searchParams = useSearchParams()
     const supabase = createClient()
 
     const handleAuth = async (e: React.FormEvent) => {
@@ -21,13 +22,15 @@ export default function LoginPage() {
         setLoading(true)
         setMessage(null)
 
+        const next = searchParams.get('next') || '/'
+
         try {
             if (isSignUp) {
                 const { error } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
-                        emailRedirectTo: `${location.origin}/auth/callback`,
+                        emailRedirectTo: `${location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
                     },
                 })
                 if (error) throw error
@@ -39,7 +42,7 @@ export default function LoginPage() {
                 })
                 if (error) throw error
                 router.refresh()
-                router.push('/dashboard')
+                router.push(next)
             }
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Ocurrió un error'
@@ -71,14 +74,14 @@ export default function LoginPage() {
             </div>
 
             {/* Right Side - Form */}
-            <div className="flex flex-col justify-center p-8 sm:p-20 lg:p-24 bg-white relative">
+            <div className="flex flex-col justify-center p-6 sm:p-12 lg:p-24 bg-white relative">
                 <Link href="/" className="absolute top-8 left-8 text-gray-400 hover:text-purple-600 transition-colors flex items-center gap-2 text-sm font-medium">
                     <ArrowLeft className="w-4 h-4" /> Volver al Inicio
                 </Link>
 
                 <div className="w-full max-w-md mx-auto">
-                    <div className="mb-10">
-                        <h2 className="text-3xl font-bold text-gray-900 mb-2">{isSignUp ? 'Crear Cuenta' : 'Bienvenido de Nuevo'}</h2>
+                    <div className="mb-8 sm:mb-10">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{isSignUp ? 'Crear Cuenta' : 'Bienvenido de Nuevo'}</h2>
                         <p className="text-gray-500">
                             {isSignUp ? 'Ingresa tus datos para empezar a vender.' : 'Por favor ingresa tus datos para iniciar sesión.'}
                         </p>
@@ -122,7 +125,7 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-semibold shadow-lg shadow-purple-200 hover:shadow-xl hover:shadow-purple-300 transition-all transform active:scale-[0.98] flex justify-center items-center gap-2"
+                            className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-semibold shadow-lg shadow-purple-200 hover:shadow-xl hover:shadow-purple-300 transition-all transform active:scale-[0.98] flex justify-center items-center gap-2 text-base sm:text-lg"
                         >
                             {loading ? (
                                 <Loader2 className="animate-spin h-5 w-5" />
