@@ -1,13 +1,17 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, ShoppingBag, Star, TrendingUp, Clock, Store } from 'lucide-react'
+import { createClient } from '@/utils/supabase/server'
 import { getPublicStores } from '@/app/actions'
+
+import { getSession } from '@/utils/auth'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
+  const user = await getSession()
   const featuredStores = await getPublicStores()
-  const displayStores = featuredStores.slice(0, 3)
+  const displayStores = (featuredStores || []).slice(0, 3)
 
   return (
     <main className="min-h-screen bg-wooly-cream text-gray-900 font-sans selection:bg-purple-200 overflow-x-hidden pt-32 pb-20">
@@ -39,9 +43,15 @@ export default async function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Link href="/login" className="btn-squishy px-8 py-4 text-lg font-bold bg-gray-900 text-white rounded-full hover:bg-gray-800 shadow-xl shadow-purple-900/10 flex items-center justify-center gap-2 group relative overflow-hidden">
-              <span className="relative z-10 flex items-center gap-2">Crear Tienda <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
-            </Link>
+            {user ? (
+              <Link href="/dashboard" className="btn-squishy px-8 py-4 text-lg font-bold bg-purple-600 text-white rounded-full hover:bg-purple-700 shadow-xl shadow-purple-900/10 flex items-center justify-center gap-2 group relative overflow-hidden">
+                <span className="relative z-10 flex items-center gap-2">Ir a mi Panel <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
+              </Link>
+            ) : (
+              <Link href="/login" className="btn-squishy px-8 py-4 text-lg font-bold bg-gray-900 text-white rounded-full hover:bg-gray-800 shadow-xl shadow-purple-900/10 flex items-center justify-center gap-2 group relative overflow-hidden">
+                <span className="relative z-10 flex items-center gap-2">Crear Tienda <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
+              </Link>
+            )}
             <Link href="/marketplace" className="btn-squishy px-8 py-4 text-lg font-bold bg-white text-gray-900 border-2 border-gray-100 rounded-full hover:border-purple-200 hover:bg-purple-50 transition-all shadow-sm flex items-center justify-center">
               Explorar Tiendas
             </Link>

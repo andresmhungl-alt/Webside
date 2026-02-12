@@ -8,6 +8,8 @@ export interface CartItem {
     description: string | null
     slot: number | null
     quantity: number
+    key?: string
+    storeName?: string
 }
 
 const CART_STORAGE_KEY = 'pop-up-market-cart'
@@ -24,7 +26,9 @@ export const saveCart = (cart: CartItem[]) => {
     window.dispatchEvent(new CustomEvent('cart-updated'))
 }
 
-export const addToCart = (product: any) => {
+import { Product } from '@/types/product'
+
+export const addToCart = (product: Product) => {
     const cart = getCart()
     const existingItem = cart.find(item => item.id === product.id)
 

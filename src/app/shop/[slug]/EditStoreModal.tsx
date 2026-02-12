@@ -13,6 +13,11 @@ interface EditStoreModalProps {
         image_url: string | null
         start_date: string
         end_date: string
+        tags?: string[]
+        contact_email?: string | null
+        whatsapp?: string | null
+        telegram?: string | null
+        is_chat_enabled?: boolean
     }
     isOpen: boolean
     onClose: () => void
@@ -110,6 +115,18 @@ export function EditStoreModal({ store, isOpen, onClose }: EditStoreModalProps) 
                     </div>
 
                     <div>
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-4">Etiquetas</label>
+                        <input
+                            name="tags"
+                            defaultValue={store.tags?.join(', ') || ''}
+                            type="text"
+                            className="w-full px-6 py-4 rounded-2xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all outline-none text-lg font-medium font-outfit"
+                            placeholder="Ej. lana, amigurumi (separados por comas)"
+                        />
+                        <p className="text-xs text-gray-400 mt-2 pl-4">Separa las etiquetas con comas.</p>
+                    </div>
+
+                    <div>
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-2 sm:pl-4">Imagen de Portada</label>
                         <div className="relative group cursor-pointer">
                             <div className={`w-full h-40 sm:h-48 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-dashed border-purple-100 flex flex-col items-center justify-center transition-all bg-purple-50/30 group-hover:border-purple-400 group-hover:bg-purple-50 ${preview ? 'border-none p-0' : ''}`}>
@@ -166,6 +183,57 @@ export function EditStoreModal({ store, isOpen, onClose }: EditStoreModalProps) 
                                 defaultValue={formatDateForInput(store.end_date)}
                                 className="w-full px-6 py-4 rounded-2xl border border-gray-200 focus:border-purple-500 transition-all outline-none text-gray-700 font-medium bg-gray-50/50 font-outfit text-sm"
                             />
+                        </div>
+                    </div>
+
+                    <div className="border-t border-gray-100 pt-6">
+                        <h3 className="text-lg font-bold text-gray-900 mb-4 font-outfit">Contacto y Chat</h3>
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-4 bg-purple-50 p-4 rounded-2xl mb-4">
+                                <label className="relative inline-flex items-center cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        name="is_chat_enabled"
+                                        defaultChecked={store.is_chat_enabled !== false}
+                                        className="sr-only peer"
+                                    />
+                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                    <span className="ml-3 text-sm font-bold text-gray-700">Habilitar Chat en Vivo</span>
+                                </label>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-4">Email de Contacto</label>
+                                    <input
+                                        name="contact_email"
+                                        type="email"
+                                        defaultValue={store.contact_email || ''}
+                                        className="w-full px-6 py-3 rounded-2xl border border-gray-200 focus:border-purple-500 outline-none font-outfit"
+                                        placeholder="contacto@tienda.com"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-4">WhatsApp</label>
+                                    <input
+                                        name="whatsapp"
+                                        type="tel"
+                                        defaultValue={store.whatsapp || ''}
+                                        className="w-full px-6 py-3 rounded-2xl border border-gray-200 focus:border-purple-500 outline-none font-outfit"
+                                        placeholder="+51999999999"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-4">Telegram (Usuario)</label>
+                                    <input
+                                        name="telegram"
+                                        type="text"
+                                        defaultValue={store.telegram || ''}
+                                        className="w-full px-6 py-3 rounded-2xl border border-gray-200 focus:border-purple-500 outline-none font-outfit"
+                                        placeholder="@usuario"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
 

@@ -29,12 +29,12 @@ export function MobileCartIcon() {
     }, [])
 
     return (
-        <Link
-            href="/cart"
-            onClick={(e) => {
-                // Let parent handle closing menu
+        <button
+            onClick={() => {
+                window.dispatchEvent(new Event('open-cart'))
+                // Let parent handle closing menu if needed
             }}
-            className={`block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-700 rounded-xl transition-all font-medium flex items-center justify-between ${isAnimating ? 'animate-cart-bounce' : ''
+            className={`w-full text-left block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-700 rounded-xl transition-all font-medium flex items-center justify-between ${isAnimating ? 'animate-cart-bounce' : ''
                 }`}
         >
             <div className="flex items-center gap-2">
@@ -46,6 +46,6 @@ export function MobileCartIcon() {
                     {cartCount}
                 </span>
             )}
-        </Link>
+        </button>
     )
 }

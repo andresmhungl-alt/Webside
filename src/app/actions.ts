@@ -22,6 +22,8 @@ export async function createStore(formData: FormData) {
     const imageFile = formData.get('image') as File
     const startDate = formData.get('start_date') as string
     const endDate = formData.get('end_date') as string
+    const tagsInput = formData.get('tags') as string
+    const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0) : []
 
     if (!name || !startDate || !endDate) return { error: 'Por favor completa todos los campos obligatorios.' }
 
@@ -37,7 +39,8 @@ export async function createStore(formData: FormData) {
             description,
             start_date: startDate,
             end_date: endDate,
-            image_url: imageUrl
+            image_url: imageUrl,
+            tags
         })
 
         if (error) throw error
@@ -137,6 +140,14 @@ export async function updateStore(storeId: string, formData: FormData) {
     const currentImageUrl = formData.get('current_image_url') as string
     const start_date = formData.get('start_date') as string
     const end_date = formData.get('end_date') as string
+    const tagsInput = formData.get('tags') as string
+    const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0) : []
+
+    // Contact fields
+    const contact_email = formData.get('contact_email') as string
+    const whatsapp = formData.get('whatsapp') as string
+    const telegram = formData.get('telegram') as string
+    const is_chat_enabled = formData.get('is_chat_enabled') === 'on'
 
     if (!name) return { error: 'El nombre es obligatorio.' }
 
@@ -145,7 +156,16 @@ export async function updateStore(storeId: string, formData: FormData) {
             ? await uploadFile('stores', imageFile, `${user.id}/store-${Date.now()}-${imageFile.name}`)
             : currentImageUrl
 
-        const updateData: any = { name, description, image_url: imageUrl }
+        const updateData: any = {
+            name,
+            description,
+            image_url: imageUrl,
+            tags,
+            contact_email,
+            whatsapp,
+            telegram,
+            is_chat_enabled
+        }
         if (start_date) updateData.start_date = start_date
         if (end_date) updateData.end_date = end_date
 
@@ -196,8 +216,19 @@ export async function deleteProduct(productId: string) {
 
 export async function getPublicStores(searchTerm?: string) {
     const supabase = await createClient()
-    let query = supabase.from('stores').select('*').order('created_at', { ascending: false })
-    if (searchTerm) query = query.ilike('name', `%${searchTerm}%`)
+    const now = new Date().toISOString()
+
+    let query = supabase
+        .from('stores')
+        .select('*')
+        .lte('start_date', now)
+        .gte('end_date', now)
+        .order('end_date', { ascending: true }) // Show stores closing soonest first
+
+    if (searchTerm) {
+        // Search by name (partial match) or tags (exact match in array)
+        query = query.or(`name.ilike.%${searchTerm}%,tags.cs.{"${searchTerm}"}`)
+    }
     const { data, error } = await query
     return error ? [] : (data || [])
 }

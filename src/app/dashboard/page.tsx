@@ -2,14 +2,18 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createStore, addProduct, signOut } from '@/app/actions'
-import { Calendar, Plus, Package, Store as StoreIcon, Clock, LogOut } from 'lucide-react'
+import { Calendar, Plus, Package, LogOut } from 'lucide-react'
 
 import { CreateStoreForm } from './CreateStoreForm'
 import { AddProductForm } from './AddProductForm'
 import { ProductActions } from './ProductActions'
 import { ProductCard } from '@/components/ProductCard'
 import { WelcomeSection } from './WelcomeSection'
+import { StoreHeader } from './StoreHeader'
+import { DashboardChat } from '@/components/DashboardChat'
 import { getMaxProductsLimit } from '@/utils/constants'
+import { AdminStoreList } from './AdminStoreList'
+import { isAdmin } from '@/utils/auth'
 
 import { Product } from '@/types/product'
 
@@ -52,7 +56,8 @@ function ProductList({ storeId, products }: { storeId: string, products: Product
     )
 }
 
-export default async function Dashboard() {
+export default async function Dashboard({ searchParams }: { searchParams: Promise<{ storeId?: string }> }) {
+    const { storeId: selectedStoreId } = await searchParams
     const supabase = await createClient()
 
     const { data: { user } } = await supabase.auth.getUser()
@@ -60,11 +65,25 @@ export default async function Dashboard() {
         redirect('/login')
     }
 
-    const { data: stores } = await supabase
-        .from('stores')
-        .select('*')
-        .eq('user_id', user.id)
-        .single()
+    const isUserAdmin = isAdmin(user)
+
+    // Admin view: all stores
+    let allStores = []
+    if (isUserAdmin && !selectedStoreId) {
+        const { data } = await supabase.from('stores').select('*').order('created_at', { ascending: false })
+        allStores = data || []
+    }
+
+    // Fetch specific store (either user's own or selected by admin)
+    let query = supabase.from('stores').select('*')
+
+    if (selectedStoreId && isUserAdmin) {
+        query = query.eq('id', selectedStoreId)
+    } else {
+        query = query.eq('user_id', user.id)
+    }
+
+    const { data: stores } = await query.single()
 
     // If we have a store, fetch products
     let products = []
@@ -78,10 +97,10 @@ export default async function Dashboard() {
 
     return (
         <div className="min-h-screen bg-gray-50 pb-24">
-
-
             <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12">
-                {!stores ? (
+                {isUserAdmin && !selectedStoreId ? (
+                    <AdminStoreList stores={allStores} />
+                ) : !stores ? (
                     <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
                         <WelcomeSection userEmail={user.email} />
 
@@ -92,68 +111,32 @@ export default async function Dashboard() {
                 ) : (
                     <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
                         {/* Store Header */}
-                        <div className="relative overflow-hidden rounded-[2.5rem] shadow-2xl group">
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-900 to-indigo-900 z-10 transition-opacity duration-500"></div>
+                        <StoreHeader store={stores} />
 
-                            {/* Background Image with Parallax-like effect */}
-                            {stores.image_url && (
-                                <div className="absolute inset-0 z-0">
-                                    <img
-                                        src={stores.image_url}
-                                        alt=""
-                                        className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000 ease-out"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 via-purple-900/40 to-indigo-900/20 mix-blend-multiply"></div>
-                                </div>
-                            )}
-
-                            {/* Decorative Elements */}
-                            <div className="absolute top-0 right-0 p-40 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 z-10"></div>
-                            <div className="absolute bottom-0 left-0 p-32 bg-purple-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 z-10"></div>
-
-                            <div className="relative z-20 p-8 sm:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                                <div className="space-y-4 max-w-2xl">
-                                    <div className="flex items-center gap-2 text-white/80">
-                                        <div className="p-1.5 bg-white/20 backdrop-blur-md rounded-lg">
-                                            <StoreIcon className="w-4 h-4 text-white" />
-                                        </div>
-                                        <span className="text-xs font-bold tracking-[0.2em] uppercase font-outfit">Panel de Control</span>
-                                    </div>
-
-                                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight font-outfit tracking-tight">
-                                        {stores.name}
-                                    </h1>
-
-                                    <div className="flex flex-wrap items-center gap-4 text-sm text-purple-100 font-medium pt-2">
-                                        <span className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 shadow-lg hover:bg-white/20 transition-colors">
-                                            <Clock className="w-4 h-4" />
-                                            <span className="font-outfit">Cierra el {new Date(stores.end_date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })}</span>
-                                        </span>
-                                        <span className="flex items-center gap-2 bg-emerald-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-emerald-500/20 shadow-lg text-emerald-100">
-                                            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-                                            <span className="font-outfit">Tienda Activa</span>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-                                    <a
-                                        href={`/shop/${stores.slug}`}
-                                        target="_blank"
-                                        className="group/btn relative px-8 py-4 bg-white text-purple-900 rounded-2xl font-bold font-outfit shadow-xl hover:shadow-2xl hover:bg-purple-50 transition-all flex items-center justify-center gap-3 overflow-hidden"
-                                    >
-                                        <div className="absolute inset-0 bg-gradient-to-r from-purple-100 to-indigo-50 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
-                                        <span className="relative z-10">Ver Tienda</span>
-                                        <Calendar className="w-4 h-4 relative z-10 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5 transition-transform" />
-                                    </a>
-                                </div>
+                        {/* Back to Admin List button */}
+                        {isUserAdmin && (
+                            <div className="flex justify-start">
+                                <Link
+                                    href="/dashboard"
+                                    className="text-sm font-bold text-purple-600 hover:text-purple-800 flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-purple-100 transition-all"
+                                >
+                                    ← Volver al listado global
+                                </Link>
                             </div>
-                        </div>
+                        )}
+
+                        {/* Chat Section */}
+                        {stores.is_chat_enabled && (
+                            <section>
+                                <h2 className="text-2xl sm:text-3xl font-black text-gray-900 font-outfit mb-6">Mensajes</h2>
+                                <DashboardChat storeId={stores.id} userId={user.id} />
+                            </section>
+                        )}
 
                         <ProductList storeId={stores.id} products={products} />
                     </div>
                 )}
-            </main>
-        </div>
+            </main >
+        </div >
     )
 }

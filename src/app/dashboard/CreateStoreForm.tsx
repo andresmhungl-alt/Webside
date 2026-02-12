@@ -93,6 +93,12 @@ export function CreateStoreForm() {
                 </div>
 
                 <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-2 sm:pl-4">Etiquetas (Opcional)</label>
+                    <input name="tags" type="text" className="w-full px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all outline-none text-base sm:text-lg font-medium placeholder:text-gray-300 font-outfit" placeholder="Ej. lana de oveja, tejido a mano, amigurumi (separados por comas)" />
+                    <p className="text-xs text-gray-400 mt-2 pl-4">Ayuda a los compradores a encontrar tu tienda. Separa las etiquetas con comas.</p>
+                </div>
+
+                <div>
                     <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 pl-2 sm:pl-4">Imagen de Portada</label>
                     <div className="relative group cursor-pointer">
                         <div className={`w-full h-48 sm:h-64 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-dashed border-purple-100 flex flex-col items-center justify-center transition-all bg-purple-50/30 group-hover:border-purple-400 group-hover:bg-purple-50 ${preview ? 'border-none p-0' : ''}`}>

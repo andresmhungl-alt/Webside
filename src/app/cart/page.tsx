@@ -83,39 +83,42 @@ export default function CartPage() {
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
             {/* Header */}
-            <header className="bg-white border-b border-gray-100 py-6 px-6 sticky top-0 z-40 backdrop-blur-md bg-white/80">
+            <header className="bg-white border-b border-gray-100 py-4 sm:py-6 px-4 sm:px-6 sticky top-0 z-40 backdrop-blur-md bg-white/80">
                 <div className="max-w-5xl mx-auto flex items-center justify-between">
-                    <Link href="/marketplace" className="flex items-center gap-2 text-purple-600 font-bold hover:text-purple-800 transition-colors">
-                        <ArrowLeft className="w-5 h-5" /> Regresar
+                    <Link href="/marketplace" className="flex items-center gap-2 text-purple-600 font-bold hover:text-purple-800 transition-colors text-sm sm:text-base">
+                        <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <span className="hidden sm:inline">Regresar</span>
                     </Link>
-                    <h1 className="text-2xl font-black text-gray-900 flex items-center gap-2">
-                        <ShoppingBag className="w-6 h-6 text-purple-600" /> Mi Carrito
+                    <h1 className="text-lg sm:text-2xl font-black text-gray-900 flex items-center gap-2">
+                        <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
+                        <span className="hidden sm:inline">Mi Carrito</span>
+                        <span className="sm:hidden">Carrito</span>
                     </h1>
-                    <div className="w-20"></div> {/* Spacer */}
+                    <div className="w-16 sm:w-20"></div> {/* Spacer */}
                 </div>
             </header>
 
             <main className="flex-1 max-w-5xl mx-auto w-full p-4 sm:p-6 md:p-10">
                 {(cart.length === 0 || checkoutSuccess) ? (
-                    <div className="bg-white rounded-3xl p-16 text-center shadow-sm border border-gray-100 animate-in fade-in zoom-in duration-500">
+                    <div className="bg-white rounded-3xl p-8 sm:p-16 text-center shadow-sm border border-gray-100 animate-in fade-in zoom-in duration-500">
                         {checkoutSuccess ? (
                             <>
-                                <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
-                                    <CheckCircle2 className="w-12 h-12" />
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
+                                    <CheckCircle2 className="w-10 h-10 sm:w-12 sm:h-12" />
                                 </div>
-                                <h2 className="text-3xl font-black text-gray-900 mb-4 font-playfair">¡Compra Finalizada!</h2>
-                                <p className="text-gray-500 mb-10 max-w-md mx-auto">Tu pedido ha sido procesado con éxito y el stock ha sido actualizado. ¡Gracias por confiar en el mercado!</p>
+                                <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4 font-playfair">¡Compra Finalizada!</h2>
+                                <p className="text-sm sm:text-base text-gray-500 mb-8 sm:mb-10 max-w-md mx-auto">Tu pedido ha sido procesado con éxito y el stock ha sido actualizado. ¡Gracias por confiar en el mercado!</p>
                             </>
                         ) : (
                             <>
-                                <div className="w-24 h-24 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-6 text-purple-200">
-                                    <ShoppingBag className="w-12 h-12" />
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-6 text-purple-200">
+                                    <ShoppingBag className="w-10 h-10 sm:w-12 sm:h-12" />
                                 </div>
-                                <h2 className="text-3xl font-black text-gray-900 mb-4 font-playfair">Tu carrito está vacío</h2>
-                                <p className="text-gray-500 mb-10 max-w-md mx-auto">Parece que aún no tienes productos seleccionados. ¡Explora el mercado y encuentra algo especial!</p>
+                                <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4 font-playfair">Tu carrito está vacío</h2>
+                                <p className="text-sm sm:text-base text-gray-500 mb-8 sm:mb-10 max-w-md mx-auto">Parece que aún no tienes productos seleccionados. ¡Explora el mercado y encuentra algo especial!</p>
                             </>
                         )}
-                        <Link href="/marketplace" className="inline-flex items-center gap-2 bg-purple-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-wider hover:bg-purple-700 transition-all shadow-xl hover:shadow-purple-100 active:scale-95">
+                        <Link href="/marketplace" className="inline-flex items-center gap-2 bg-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-black uppercase tracking-wider hover:bg-purple-700 transition-all shadow-xl hover:shadow-purple-100 active:scale-95 text-sm sm:text-base">
                             Ir al Mercado
                         </Link>
                     </div>

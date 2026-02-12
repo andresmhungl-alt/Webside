@@ -22,6 +22,9 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: "Aranya - El Mercado de Lana",
   description: "Conecta con artesanos y descubre colecciones únicas de lana tejida a mano.",
@@ -29,6 +32,8 @@ export const metadata: Metadata = {
 
 import Navbar from "@/components/Navbar";
 import { CartWarning } from "@/components/CartWarning";
+
+import { SlideOutCart } from "@/components/SlideOutCart";
 
 export default function RootLayout({
   children,
@@ -43,6 +48,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <CartWarning />
+        <SlideOutCart />
       </body>
     </html>
   );

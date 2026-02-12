@@ -8,6 +8,7 @@ import Link from 'next/link'
 
 function LoginForm() {
     const [email, setEmail] = useState('')
+    const [fullName, setFullName] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null)
@@ -31,6 +32,9 @@ function LoginForm() {
                     password,
                     options: {
                         emailRedirectTo: `${location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+                        data: {
+                            full_name: fullName
+                        }
                     },
                 })
                 if (error) throw error
@@ -78,6 +82,19 @@ function LoginForm() {
                             placeholder="you@company.com"
                         />
                     </div>
+                    {isSignUp && (
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Nombre Completo</label>
+                            <input
+                                type="text"
+                                required
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
+                                className="w-full px-5 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all outline-none bg-gray-50 focus:bg-white"
+                                placeholder="Tu nombre"
+                            />
+                        </div>
+                    )}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
                         <input

@@ -5,28 +5,38 @@ import { Clock, ArrowLeft, Store } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { StoreAdminControls, DeleteProductButton, EditProductButton } from './StoreAdminControls'
+import { ChatWidget } from '@/components/ChatWidget'
+import { StoreContactActions } from './StoreContactActions'
 
 import { ProductCard } from '@/components/ProductCard'
 
 // Force dynamic behavior because we rely on dates/time
 export const dynamic = 'force-dynamic'
 
-export default async function ShopPage({ params }: { params: { slug: string } }) {
-    const supabase = await createClient()
-    const { slug } = (await params)
+export default async function ShopPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params
+    console.log('--- ShopPage Debug ---')
+    console.log('Slug from params:', slug)
 
-    const { data: store } = await supabase
+    const supabase = await createClient()
+
+    const { data: store, error: storeError } = await supabase
         .from('stores')
         .select('*')
         .eq('slug', slug)
         .single()
 
-    const user = await getSession()
-    const isOwner = user ? (user.id === store?.user_id || isAdmin(user)) : false
+    console.log('Store found:', store ? store.name : 'null')
+    if (storeError) console.error('Store error:', storeError)
 
-    if (!store) {
+    if (storeError || !store) {
+        console.error('Triggering notFound() for slug:', slug)
         notFound()
     }
+
+    const user = await getSession()
+    const isOwner = user ? (user.id === store.user_id || isAdmin(user)) : false
+    const isLoggedIn = !!user
 
     const now = new Date()
     const startDate = new Date(store.start_date)
@@ -87,8 +97,8 @@ export default async function ShopPage({ params }: { params: { slug: string } })
                 </div>
 
                 {/* Content */}
-                <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-20 pb-20 text-center">
-                    <Link href="/marketplace" className="inline-flex items-center gap-2 text-white/80 hover:text-white font-bold mb-8 transition-colors group">
+                <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-32 sm:pb-48 text-center">
+                    <Link href="/marketplace" className="inline-flex items-center gap-2 text-white/80 hover:text-white font-bold mb-6 sm:mb-8 transition-colors group">
                         <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-white/20 transition-colors">
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
                         </div>
@@ -96,34 +106,90 @@ export default async function ShopPage({ params }: { params: { slug: string } })
                     </Link>
 
                     <div className="animate-fade-in-up">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 text-sm font-bold tracking-wide shadow-lg mb-6 hover:bg-white/30 transition-colors cursor-default">
-                            <Clock className="w-4 h-4 text-green-300" />
-                            <span className="uppercase text-xs tracking-wider">Abierto hasta el {endDate.toLocaleDateString()}</span>
+                        {/* Elegant Countdown */}
+                        <div className="inline-flex flex-col items-center gap-2 mb-6 sm:mb-8">
+                            <span className="uppercase text-xs tracking-[0.2em] text-green-300 font-bold">Tiempo Restante</span>
+                            <div className="flex items-center gap-3 sm:gap-4 text-white font-outfit">
+                                <div className="flex flex-col items-center">
+                                    <span className="text-2xl sm:text-3xl md:text-4xl font-black tabular-nums leading-none">
+                                        {Math.floor((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))}
+                                    </span>
+                                    <span className="text-[10px] uppercase opacity-70">Días</span>
+                                </div>
+                                <span className="text-xl sm:text-2xl font-light opacity-50">:</span>
+                                <div className="flex flex-col items-center">
+                                    <span className="text-2xl sm:text-3xl md:text-4xl font-black tabular-nums leading-none">
+                                        {Math.floor(((endDate.getTime() - now.getTime()) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))}
+                                    </span>
+                                    <span className="text-[10px] uppercase opacity-70">Horas</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <h1 className="text-6xl md:text-8xl font-black mb-6 text-white tracking-tight drop-shadow-xl font-outfit leading-[0.9]">
+                        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-black mb-4 sm:mb-6 text-white tracking-tighter drop-shadow-2xl font-outfit leading-[0.85] px-4 text-border-white">
                             {store.name}
                         </h1>
 
-                        <p className="text-xl md:text-3xl text-white/90 max-w-3xl mx-auto font-outfit font-light leading-relaxed drop-shadow-md">
+                        <p className="text-base sm:text-xl md:text-2xl text-white/90 max-w-2xl mx-auto font-outfit font-light leading-relaxed drop-shadow-lg mb-8 sm:mb-10 px-4 text-border-white">
                             {store.description}
                         </p>
+
+                        {/* Social Proof / Scarcity */}
+                        <div className="flex flex-col items-center gap-4 sm:gap-6 px-4">
+                            <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-medium text-white/80 bg-white/10 backdrop-blur-md py-2 px-3 sm:px-4 rounded-full inline-flex border border-white/10">
+                                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                <span className="hidden sm:inline">{Math.floor(Math.random() * 15) + 5} personas están viendo esta colección</span>
+                                <span className="sm:hidden">{Math.floor(Math.random() * 15) + 5} viendo ahora</span>
+                            </div>
+
+                            {/* Store Contact Actions (Email, WhatsApp, Telegram, Live Chat) */}
+                            <StoreContactActions
+                                contact_email={store.contact_email}
+                                whatsapp={store.whatsapp}
+                                telegram={store.telegram}
+                                is_chat_enabled={store.is_chat_enabled}
+                                isOwner={isOwner}
+                            />
+                        </div>
+
+                        {/* Tags Display */}
+                        {store.tags && store.tags.length > 0 && (
+                            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6 sm:mt-8 animate-fade-in px-4" style={{ animationDelay: '400ms' }}>
+                                {store.tags.map((tag: string, i: number) => (
+                                    <span
+                                        key={i}
+                                        className="px-3 sm:px-4 py-1.5 sm:py-2 bg-black/20 backdrop-blur-md border border-white/20 rounded-full text-xs sm:text-sm font-bold text-white shadow-lg hover:bg-black/30 transition-colors"
+                                    >
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
 
                 {/* Decorative Bottom Wave */}
-                <div className="absolute bottom-0 left-0 w-full h-24 bg-wooly-cream rounded-t-[3rem] z-20"></div>
+                <div className="absolute bottom-0 left-0 w-full h-32 bg-wooly-cream rounded-t-[4rem] z-20"></div>
             </header>
 
+            {/* Collection Header */}
+            <div className="text-center -mt-20 relative z-30 mb-12">
+                <span className="bg-white px-6 py-2 rounded-full text-sm font-black uppercase tracking-widest text-purple-900 shadow-xl border border-purple-50 inline-block">
+                    Colección Limitada
+                </span>
+            </div>
+
             {/* Products Grid */}
-            <main className="max-w-7xl mx-auto px-6 pb-32 -mt-10 relative z-30">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-                    {products?.map((product, index) => (
+            <main className="max-w-7xl mx-auto px-6 pb-32 relative z-30">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                    {products?.map((product: any, index: number) => (
                         <div key={product.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
                             <ProductCard
                                 product={product}
                                 isAdmin={isOwner}
-                                aspectRatio="aspect-[3/4]"
+                                isGlobalAdmin={user ? isAdmin(user) : false}
+                                isLoggedIn={isLoggedIn}
+                                aspectRatio="aspect-[4/5]" // Taller, more elegant aspect ratio
                             >
                                 <div className="flex flex-col gap-3">
                                     <div className="bg-white/90 backdrop-blur rounded-2xl p-2 shadow-lg hover:scale-105 transition-transform">
@@ -143,13 +209,24 @@ export default async function ShopPage({ params }: { params: { slug: string } })
                         <div className="w-24 h-24 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-8">
                             <Store className="w-10 h-10 text-purple-300" />
                         </div>
-                        <h3 className="text-3xl font-bold text-gray-900 mb-4 font-outfit">Tienda en preparación</h3>
+                        <h3 className="text-3xl font-bold text-gray-900 mb-4 font-outfit">Colección en preparación</h3>
                         <p className="text-xl text-gray-500 font-outfit">
-                            El artesano está colocando sus productos en los estantes. <br />Vuelve pronto.
+                            El artesano está finalizando los detalles de esta colección exclusiva. <br />Vuelve pronto.
                         </p>
                     </div>
                 )}
             </main>
+
+            {/* Chat Widget */}
+            {/* Chat Widget - Only for customers */}
+            {!isOwner && (
+                <ChatWidget
+                    storeId={store.id}
+                    storeName={store.name}
+                    isChatEnabled={store.is_chat_enabled !== false}
+                    customerId={user?.id}
+                />
+            )}
 
             {isOwner && <StoreAdminControls store={store} productCount={products?.length || 0} />}
 

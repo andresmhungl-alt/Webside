@@ -29,8 +29,8 @@ export function CartIcon() {
     }, [])
 
     return (
-        <Link
-            href="/cart"
+        <button
+            onClick={() => window.dispatchEvent(new Event('open-cart'))}
             className={`flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-purple-700 hover:bg-purple-50 rounded-full transition-all relative group/cart-nav hover:rotate-2 ${isAnimating ? 'animate-cart-bounce' : ''
                 }`}
             title="Ver Carrito"
@@ -45,6 +45,6 @@ export function CartIcon() {
             </div>
             <span>Carrito de compra</span>
             <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full border-2 border-white opacity-0 group-hover/cart-nav:opacity-100 transition-opacity animate-bounce"></span>
-        </Link>
+        </button>
     )
 }

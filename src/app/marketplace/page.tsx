@@ -39,7 +39,7 @@ export default async function MarketplacePage({
                                 type="text"
                                 name="q"
                                 defaultValue={searchTerm}
-                                placeholder="Buscar tienda por nombre..."
+                                placeholder="Buscar por nombre o etiqueta..."
                                 className="relative w-full pl-14 pr-6 py-5 bg-white/80 backdrop-blur-sm border-2 border-transparent focus:border-purple-200 rounded-[2rem] focus:outline-none focus:ring-4 focus:ring-purple-500/10 transition-all text-lg font-medium text-gray-900 placeholder:text-gray-400"
                             />
                             <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-purple-400 group-hover:text-purple-600 transition-colors z-10" />

@@ -83,5 +83,7 @@ insert into storage.buckets (id, name, public) values ('stores', 'stores', true)
 create policy "Give public access to store images" on storage.objects
   for select using ( bucket_id = 'stores' );
 
-create policy "Users can upload store images" on storage.objects
   for insert with check ( bucket_id = 'stores' and auth.role() = 'authenticated' );
+
+-- Migration: Add tags to stores
+ALTER TABLE public.stores ADD COLUMN IF NOT EXISTS tags text[] DEFAULT '{}';

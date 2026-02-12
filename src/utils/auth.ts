@@ -15,6 +15,8 @@ export async function requireAuth() {
     return user
 }
 
-export function isAdmin(user: any) {
+import { User } from '@supabase/supabase-js'
+
+export function isAdmin(user: User | null | { email?: string }) {
     return user?.email === 'admin@aranya.com'
 }

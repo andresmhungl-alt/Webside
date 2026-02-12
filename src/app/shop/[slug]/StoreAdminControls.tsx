@@ -16,14 +16,23 @@ interface StoreAdminControlsProps {
         image_url: string | null
         start_date: string
         end_date: string
+        user_id: string
+        contact_email?: string | null
+        whatsapp?: string | null
+        telegram?: string | null
+        is_chat_enabled?: boolean
+        tags?: string[]
     }
     productCount: number
 }
+
+import { InboxModal } from './InboxModal'
 
 export function StoreAdminControls({ store, productCount }: StoreAdminControlsProps) {
     const [isEditMode, setIsEditMode] = useState(false)
     const [showEditStore, setShowEditStore] = useState(false)
     const [showAddProduct, setShowAddProduct] = useState(false)
+    const [showInbox, setShowInbox] = useState(false)
     const [isDeleting, setIsDeleting] = useState<string | null>(null)
 
     const limit = process.env.NEXT_PUBLIC_MAX_PRODUCTS
@@ -32,7 +41,7 @@ export function StoreAdminControls({ store, productCount }: StoreAdminControlsPr
 
     if (!isEditMode) {
         return (
-            <div className="fixed bottom-6 right-6 z-[90] animate-in slide-in-from-bottom duration-500">
+            <div className="fixed bottom-6 left-6 z-[90] animate-in slide-in-from-bottom duration-500">
                 <button
                     onClick={() => setIsEditMode(true)}
                     className="flex items-center gap-2 bg-gray-900 text-white px-5 py-3 sm:px-6 sm:py-3 rounded-full font-bold shadow-2xl hover:bg-black hover:scale-105 active:scale-95 transition-all group border border-purple-500/30"
@@ -62,6 +71,13 @@ export function StoreAdminControls({ store, productCount }: StoreAdminControlsPr
 
                     <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                         <button
+                            onClick={() => setShowInbox(true)}
+                            className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-lg shadow-purple-900/20"
+                        >
+                            <span className="hidden sm:inline">Mensajes</span>
+                            <span className="sm:hidden">Chat</span>
+                        </button>
+                        <button
                             onClick={() => setShowEditStore(true)}
                             className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all border border-white/10"
                         >
@@ -90,6 +106,15 @@ export function StoreAdminControls({ store, productCount }: StoreAdminControlsPr
                     store={store}
                     isOpen={showEditStore}
                     onClose={() => setShowEditStore(false)}
+                />
+            )}
+
+            {showInbox && (
+                <InboxModal
+                    storeId={store.id}
+                    userId={store.user_id} // Assuming store object has user_id, referencing prop interface below
+                    isOpen={showInbox}
+                    onClose={() => setShowInbox(false)}
                 />
             )}
 

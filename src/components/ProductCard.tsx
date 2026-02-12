@@ -10,11 +10,13 @@ import { Product } from '@/types/product'
 interface ProductCardProps {
     product: Product
     isAdmin?: boolean
+    isGlobalAdmin?: boolean
     children?: React.ReactNode // For action buttons overlay
     aspectRatio?: string
+    isLoggedIn?: boolean
 }
 
-export function ProductCard({ product, isAdmin = false, children, aspectRatio = 'h-56' }: ProductCardProps) {
+export function ProductCard({ product, isAdmin = false, isGlobalAdmin = false, children, aspectRatio = 'h-56', isLoggedIn = false }: ProductCardProps) {
     const [imageError, setImageError] = useState(false)
     const isFixedH = aspectRatio.startsWith('h-')
 
@@ -53,18 +55,33 @@ export function ProductCard({ product, isAdmin = false, children, aspectRatio = 
                 </div>
 
                 {/* Overlay & Add to Cart Button */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px] z-10">
-                    {!isAdmin && (
-                        <button
-                            onClick={() => addToCart(product)}
-                            disabled={Number(product.slot ?? 0) <= 0}
-                            className="transform translate-y-10 group-hover:translate-y-0 transition-transform duration-300 px-8 py-3 bg-white text-gray-900 rounded-full font-bold uppercase tracking-wider hover:bg-yarn-magenta hover:text-white shadow-2xl flex items-center gap-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
-                        >
-                            <ShoppingCart className="w-5 h-5" />
-                            {Number(product.slot ?? 0) > 0 ? 'Añadir' : 'Agotado'}
-                        </button>
-                    )}
-                </div>
+                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+
+                {(!isAdmin || isGlobalAdmin) && (
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            if (!isLoggedIn) {
+                                window.location.href = '/login'
+                                return
+                            }
+                            addToCart(product)
+                        }}
+                        disabled={Number(product.slot ?? 0) <= 0}
+                        className="absolute bottom-4 right-4 translate-y-20 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-30 bg-white text-gray-900 hover:bg-black hover:text-white p-4 rounded-full shadow-2xl flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed group/btn"
+                        title={isLoggedIn ? "Añadir al carrito" : "Inicia sesión para comprar"}
+                    >
+                        <ShoppingCart className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
+                    </button>
+                )}
+
+                {/* Low Stock Warning */}
+                {Number(product.slot ?? 0) > 0 && Number(product.slot ?? 0) <= 3 && (
+                    <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg z-20 animate-pulse">
+                        ¡Solo quedan {product.slot}!
+                    </div>
+                )}
             </div>
 
             {/* Content Container */}
