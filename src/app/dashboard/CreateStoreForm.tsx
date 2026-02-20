@@ -4,7 +4,9 @@ import { useState } from 'react'
 import { Store as StoreIcon, X, Image as ImageIcon, UploadCloud } from 'lucide-react'
 import { createStore } from '@/app/actions'
 
-export function CreateStoreForm() {
+import Link from 'next/link'
+
+export function CreateStoreForm({ isAdmin = false }: { isAdmin?: boolean }) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
     const [error, setError] = useState<string | null>(null)
@@ -28,14 +30,27 @@ export function CreateStoreForm() {
                     <StoreIcon className="w-12 h-12 text-green-500" />
                 </div>
                 <h2 className="text-4xl font-black text-gray-900 mb-4 tracking-tight font-outfit">¡Tienda Creada! 🎉</h2>
-                <p className="text-xl text-gray-600 mb-10 max-w-sm mx-auto font-outfit">Tu espacio en Aranya ya está listo para recibir tejedores.</p>
+                <p className="text-xl text-gray-600 mb-10 max-w-sm mx-auto font-outfit">
+                    {isAdmin
+                        ? 'La tienda ha sido registrada exitosamente en el sistema global.'
+                        : 'Tu espacio en Aranya ya está listo para recibir tejedores.'}
+                </p>
                 <div className="flex flex-col gap-4">
-                    <button
-                        onClick={() => window.location.reload()}
-                        className="btn-squishy w-full py-4 bg-gray-900 text-white rounded-full font-bold text-lg hover:bg-black transition-all shadow-xl"
-                    >
-                        Ir a mi Tienda
-                    </button>
+                    {isAdmin ? (
+                        <Link
+                            href="/dashboard"
+                            className="btn-squishy w-full py-4 bg-gray-900 text-white rounded-full font-bold text-lg hover:bg-black transition-all shadow-xl flex items-center justify-center"
+                        >
+                            Volver al listado global
+                        </Link>
+                    ) : (
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="btn-squishy w-full py-4 bg-gray-900 text-white rounded-full font-bold text-lg hover:bg-black transition-all shadow-xl"
+                        >
+                            Ir a mi Tienda
+                        </button>
+                    )}
                 </div>
             </div>
         )

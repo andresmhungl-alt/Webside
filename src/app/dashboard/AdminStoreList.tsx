@@ -1,6 +1,6 @@
 'use client'
 
-import { Store, ExternalLink, Settings, Trash2, Eye } from 'lucide-react'
+import { Store, ExternalLink, Settings, Trash2, Eye, Plus } from 'lucide-react'
 import Link from 'next/link'
 
 interface StoreSummary {
@@ -24,8 +24,16 @@ export function AdminStoreList({ stores }: AdminStoreListProps) {
                     <h2 className="text-3xl font-black text-gray-900 font-outfit mb-2">Gestión Global</h2>
                     <p className="text-gray-500 text-sm font-outfit font-medium">Administrador: Tienes control sobre todas las tiendas de la plataforma.</p>
                 </div>
-                <div className="text-sm font-bold bg-purple-50 text-purple-700 px-4 py-2 rounded-full border border-purple-100 flex items-center gap-2">
-                    {stores.length} Tiendas Registradas
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <Link
+                        href="/dashboard?action=create"
+                        className="flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-full font-bold text-sm hover:bg-purple-700 transition-all shadow-lg hover:shadow-purple-500/20"
+                    >
+                        <Plus className="w-4 h-4" /> Nueva Tienda
+                    </Link>
+                    <div className="text-sm font-bold bg-purple-50 text-purple-700 px-4 py-2 rounded-full border border-purple-100 flex items-center gap-2">
+                        {stores.length} Tiendas Registradas
+                    </div>
                 </div>
             </div>
 

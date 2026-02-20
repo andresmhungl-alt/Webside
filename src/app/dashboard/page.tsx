@@ -56,8 +56,8 @@ function ProductList({ storeId, products }: { storeId: string, products: Product
     )
 }
 
-export default async function Dashboard({ searchParams }: { searchParams: Promise<{ storeId?: string }> }) {
-    const { storeId: selectedStoreId } = await searchParams
+export default async function Dashboard({ searchParams }: { searchParams: Promise<{ storeId?: string, action?: string }> }) {
+    const { storeId: selectedStoreId, action } = await searchParams
     const supabase = await createClient()
 
     const { data: { user } } = await supabase.auth.getUser()
@@ -69,7 +69,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
 
     // Admin view: all stores
     let allStores = []
-    if (isUserAdmin && !selectedStoreId) {
+    if (isUserAdmin && !selectedStoreId && action !== 'create') {
         const { data } = await supabase.from('stores').select('*').order('created_at', { ascending: false })
         allStores = data || []
     }
@@ -87,7 +87,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
 
     // If we have a store, fetch products
     let products = []
-    if (stores) {
+    if (stores && !action) {
         const { data } = await supabase
             .from('products')
             .select('*')
@@ -98,14 +98,28 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
     return (
         <div className="min-h-screen bg-gray-50 pb-24">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12">
-                {isUserAdmin && !selectedStoreId ? (
+                {isUserAdmin && action === 'create' ? (
+                    <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                        <div className="flex justify-start">
+                            <Link
+                                href="/dashboard"
+                                className="text-sm font-bold text-purple-600 hover:text-purple-800 flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-purple-100 transition-all font-outfit"
+                            >
+                                ← Volver al listado global
+                            </Link>
+                        </div>
+                        <div id="create-store-section">
+                            <CreateStoreForm isAdmin={isUserAdmin} />
+                        </div>
+                    </div>
+                ) : isUserAdmin && !selectedStoreId ? (
                     <AdminStoreList stores={allStores} />
                 ) : !stores ? (
                     <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
                         <WelcomeSection userEmail={user.email} />
 
                         <div id="create-store-section" className="pt-12 border-t border-purple-100">
-                            <CreateStoreForm />
+                            <CreateStoreForm isAdmin={isUserAdmin} />
                         </div>
                     </div>
                 ) : (
